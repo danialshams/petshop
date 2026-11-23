@@ -308,8 +308,8 @@
   width:min(100%,1600px); margin:clamp(-363px,-22.6667vw,-90px) auto 0;
   position:relative; z-index:15; isolation:isolate;
 }
-.hero-pet-panel{position:relative; min-width:0; padding:0; aspect-ratio:500/580; overflow:visible; background:#91e39e}
-.hero-pet-panel--middle{background:#004219; color:white}
+.hero-pet-panel{position:relative; min-width:0; padding:0; aspect-ratio:500/580; overflow:visible; background:transparent}
+.hero-pet-panel--middle{background:transparent; color:white}
 .hero-pet-panel-media{
   display:block; width:100%; height:auto; aspect-ratio:500/580;
   object-fit:contain; object-position:top; pointer-events:none; user-select:none;
@@ -337,8 +337,10 @@
    width:132vw;max-width:none;left:50%;transform:translateX(-50%);
    margin-top:calc(-132vw * .226667);grid-template-columns:repeat(3,minmax(0,1fr));
  }
- .hero-pet-panel{aspect-ratio:auto;min-height:clamp(235px,62vw,320px);overflow:hidden}
- .hero-pet-panel-media{width:100%;height:auto;aspect-ratio:500/580;object-fit:contain}
+ .hero-pet-panel{aspect-ratio:auto;min-height:clamp(235px,62vw,320px);overflow:hidden;isolation:isolate}
+ .hero-pet-panel::before{content:"";position:absolute;top:calc(132vw * .68 / 3);bottom:0;left:0;right:0;background:#91e39e;z-index:0}
+ .hero-pet-panel--middle::before{background:#004219}
+ .hero-pet-panel-media{width:100%;height:auto;aspect-ratio:500/580;object-fit:contain;position:relative;z-index:1}
  .hero-pet-panel-caption{bottom:12px;left:4px;right:4px;gap:5px;min-height:auto}
  .hero-pet-stat{font-size:clamp(18px,5vw,28px);letter-spacing:-.4px}
  .hero-pet-panel-caption p{font-size:clamp(8px,2vw,11px);line-height:1.55}
