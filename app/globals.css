@@ -484,3 +484,63 @@
   .hero-pet-panel-caption p{font-size:9px}
   .hero-pet-panel-caption .pill-button{min-height:28px}
 }
+
+/* 2026-11-23 Unified hero composition */
+/* Unified art-directed hero. Animal silhouettes and the section boundary are
+   baked into ONE image; only accessible copy and controls remain DOM nodes. */
+.hero-shell{background:#eafbea;overflow:hidden;isolation:isolate}
+.hero-stage{height:clamp(235px,19vw,310px)!important;max-width:1600px;isolation:isolate;position:relative;z-index:2}
+.hero-wordmark{top:15px;z-index:2}
+.hero-wordmark h1{font-size:clamp(52px,6.8vw,112px);line-height:1.3;letter-spacing:-2.5px}
+.hero-feature{top:18px;z-index:3}
+.side-review{top:22px;z-index:3}
+.hero-scene{width:100%;max-width:1600px;margin:clamp(-152px,-9.5vw,-65px) auto 0;position:relative;z-index:1;isolation:isolate;line-height:0;direction:ltr}
+.hero-scene-picture{display:block;width:100%}
+.hero-scene-image{display:block;width:100%;height:auto;object-fit:contain;object-position:center;user-select:none;pointer-events:none}
+.hero-scene-captions{position:absolute;inset:auto 0 0;height:29.143%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));direction:ltr;line-height:normal;z-index:2}
+.hero-scene-caption{min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:9px;padding:0 12px clamp(15px,1.6vw,28px);direction:rtl;text-align:center}
+.hero-scene-caption .hero-scene-stat{margin:0;color:#04391f;font-weight:900;font-size:clamp(29px,3.1vw,53px);letter-spacing:-1px;line-height:1.22;white-space:nowrap}
+.hero-scene-caption .scene-star{font-size:.8em;color:#fa8831}
+.hero-scene-caption .scene-paws{font-size:.58em;vertical-align:middle;color:#f58b36}
+.hero-scene-caption>p{font-size:clamp(11px,1.07vw,15px);line-height:1.8;color:#2d7041;max-width:260px;margin:0}
+.hero-scene-caption--middle{color:#fff}
+.hero-scene-caption--middle h2{font-size:clamp(18px,1.85vw,29px);line-height:1.45;margin:0;color:#fff;font-weight:800}
+.hero-scene-caption .pill-button{min-height:43px}
+@media(max-width:1100px){
+  .hero-stage{height:clamp(210px,19vw,260px)!important}
+  .hero-wordmark h1{font-size:clamp(44px,7.5vw,80px)}
+  .hero-scene{margin-top:-8vw}
+  .hero-scene-caption{gap:4px;padding-bottom:12px}
+}
+@media(max-width:760px){
+  .hero-stage{height:225px!important}
+  .hero-wordmark{top:30px;padding:0 12px}
+  .hero-wordmark h1{font-size:clamp(33px,9.2vw,56px);line-height:1.35;letter-spacing:-1px}
+  .hero-wordmark p{font-size:11px;line-height:1.8;margin:8px 0 0}
+  .hero-feature,.side-review{display:none}
+  .hero-scene{width:100%;max-width:none;margin-top:-125px;left:auto;transform:none}
+  .hero-scene-captions{height:40.345%;}
+  .hero-scene-caption{padding:0 3px 16px;gap:5px}
+  .hero-scene-caption .hero-scene-stat{font-size:clamp(18px,4.9vw,28px);letter-spacing:-.6px}
+  .hero-scene-caption>p{font-size:clamp(8px,2.15vw,11px);line-height:1.55;max-width:120px}
+  .hero-scene-caption--middle h2{font-size:clamp(11px,3vw,17px);line-height:1.4}
+  .hero-scene-caption .pill-button{min-height:28px;gap:4px;font-size:clamp(8px,2vw,11px);padding:4px 8px 4px 4px}
+  .hero-scene-caption .pill-button span{width:24px;height:24px}
+  .hero-scene-caption .pill-button span svg{width:13px;height:13px}
+}
+@media(max-width:400px){
+  .hero-stage{height:220px!important}
+  .hero-wordmark{top:35px}
+  .hero-wordmark h1{font-size:35px}
+  .hero-scene{margin-top:-123px}
+  .hero-scene-caption{padding-bottom:12px}
+  .hero-scene-caption .hero-scene-stat{font-size:20px}
+  .hero-scene-caption--middle h2{font-size:12px}
+}
+@media(min-width:761px) and (max-width:1100px){
+ .hero-scene-caption{gap:5px;padding-bottom:7px}
+ .hero-scene-caption--middle h2{font-size:clamp(14px,1.7vw,19px);line-height:1.36}
+ .hero-scene-caption .pill-button{min-height:32px;padding:3px 6px 3px 3px;font-size:12px;gap:6px}
+ .hero-scene-caption .pill-button span{width:30px;height:30px}
+ .hero-scene-caption .hero-scene-stat{font-size:clamp(24px,3.3vw,33px)}
+}
