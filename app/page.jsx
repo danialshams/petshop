@@ -70,10 +70,10 @@ function Loader({onDone}) {
    // Exactly the supplied dog animation: a 6-second transparent WebP loop.
    const dog=new window.Image();
    const imageSources=[
-     "/images/hero-golden-v3.webp",
-     "/images/hero-dachshund-v3.webp",
-     "/images/hero-cat-v3.webp",
-     "/images/hero-puppy.webp",
+     "/images/pet-tile-golden.webp",
+     "/images/pet-tile-dachshund.webp",
+     "/images/pet-tile-cat.webp",
+     "/images/pet-trio-mobile.webp",
    ];
    const prefetch=(src)=>new Promise(resolve=>{
      const img=new window.Image();
@@ -167,8 +167,8 @@ export default function Home(){
    <section className="hero-pet-panel hero-pet-panel--left">
      <img className="hero-pet-panel-media" src="/images/pet-tile-dachshund.webp" alt="سگ داشهوند با پنجه‌ها روی لبه کارت سبز" width="500" height="580" fetchPriority="high" />
      <div className="hero-pet-panel-caption">
-       <strong className="hero-pet-stat"><span aria-hidden="true" className="hero-stat-symbol">★</span> ۴.۶</strong>
-       <p>از نظر صاحب‌های حیوانات دوست‌داشتنی</p>
+       <strong className="hero-pet-stat">۹۸ هزار <span aria-hidden="true" className="hero-stat-symbol hero-stat-paws">🐾</span></strong>
+       <p>همراه خوشحال و رفیق‌های پشمالوشون</p>
      </div>
    </section>
    <section className="hero-pet-panel hero-pet-panel--middle">
@@ -181,8 +181,8 @@ export default function Home(){
    <section className="hero-pet-panel hero-pet-panel--right">
      <img className="hero-pet-panel-media" src="/images/pet-tile-cat.webp" alt="گربه نارنجی با پنجه‌ها روی لبه کارت سبز" width="500" height="580" fetchPriority="high" />
      <div className="hero-pet-panel-caption">
-       <strong className="hero-pet-stat">۹۸ هزار <span aria-hidden="true" className="hero-stat-symbol hero-stat-paws">🐾</span></strong>
-       <p>همراه خوشحال و رفیق‌های پشمالوشون</p>
+       <strong className="hero-pet-stat"><span aria-hidden="true" className="hero-stat-symbol">★</span> ۴.۶</strong>
+       <p>از نظر صاحب‌های حیوانات دوست‌داشتنی</p>
      </div>
    </section>
  </div>
