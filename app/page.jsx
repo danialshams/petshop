@@ -3,12 +3,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 const photos = {
- golden: "/images/hero-golden.webp",
- dachshund: "/images/hero-dachshund.webp",
- ginger: "/images/hero-cat.webp",
+ golden: "/images/hero-golden-v3.webp",
+ dachshund: "/images/hero-dachshund-v3.webp",
+ ginger: "/images/hero-cat-v3.webp",
  puppy: "/images/hero-puppy.webp",
- happy: "/images/hero-golden.webp",
- cat: "/images/hero-cat.webp",
+ happy: "/images/hero-golden-v3.webp",
+ cat: "/images/hero-cat-v3.webp",
 };
 const products = [
  {id:1,name:"تشویقی خوشمزه سگ",kind:"سگ",price:285000,old:350000,tag:"محبوب",art:"🦴",bg:"#fff0db"},
@@ -70,9 +70,9 @@ function Loader({onDone}) {
    // Exactly the supplied dog animation: a 6-second transparent WebP loop.
    const dog=new window.Image();
    const imageSources=[
-     "/images/hero-golden.webp",
-     "/images/hero-dachshund.webp",
-     "/images/hero-cat.webp",
+     "/images/hero-golden-v3.webp",
+     "/images/hero-dachshund-v3.webp",
+     "/images/hero-cat-v3.webp",
      "/images/hero-puppy.webp",
    ];
    const prefetch=(src)=>new Promise(resolve=>{
@@ -152,7 +152,7 @@ export default function Home(){
  <div className="site-frame">
  <section id="home" className="hero-shell">
  <header className="topbar">
- <button className="mobile-paw-menu" type="button" title="منو" aria-label="بازکردن منو" aria-expanded={menu} onClick={()=>setMenu(true)}><Icon name="paw" size={26} fill="currentColor" strokeWidth={1.35}/></button>
+ <button className="mobile-paw-menu" type="button" title="منو" aria-label="بازکردن منو" aria-expanded={menu} onClick={()=>setMenu(true)}><Icon name="menu" size={25} strokeWidth={2}/></button>
  <a className="brand" href="#home" aria-label="خانه کوزی پاوز"><span className="brand-icon"><Icon name="paw" size={29} fill="currentColor"/></span><span>کوزی<span>پاوز</span></span></a>
  <nav className="nav-links" aria-label="فهرست اصلی"><a href="#home" className="active">خانه</a><a href="#shop">فروشگاه</a><a href="#categories">دسته‌بندی‌ها</a><a href="#benefits">ارسال و پرداخت</a><a href="#about">درباره ما</a></nav>
  <div className="top-actions"><button type="button" title="جست‌وجو" aria-label="جست‌وجو" onClick={()=>{setSearchOpen(s=>!s);toShop("همه")}}><Icon name="search"/></button><button type="button" title="علاقه‌مندی‌ها" aria-label="علاقه‌مندی‌ها" onClick={()=>document.getElementById("shop")?.scrollIntoView({behavior:"smooth"})}><Icon name="heart" fill={liked.length?"#ff772b":"none"}/></button><button type="button" title="سبد خرید" aria-label="سبد خرید" onClick={()=>setCartOpen(true)} className="cart-top"><Icon name="bag"/>{cartCount>0&&<span className="count">{cartCount.toLocaleString("fa-IR")}</span>}</button></div>
