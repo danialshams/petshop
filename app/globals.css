@@ -109,3 +109,26 @@
 }
 .product-card:hover .product-photo{transform:translate(-50%,-50%) scale(1.065) rotate(-2deg)}
 @media(max-width:760px){.product-picture .product-photo{width:calc(100% - 16px);height:calc(100% - 18px)}}
+/* V11: directional tracks, truly transparent floating toy packshots. */
+.category-mark{display:none!important}
+.paw-route{direction:ltr}
+.paw-footprint svg{transform:rotate(90deg);transform-origin:center}
+.paw-footprint--left svg{transform:rotate(82deg)}
+.paw-footprint--right svg{transform:rotate(98deg)}
+/* Loader rotates the parent print already. */
+.paw-track .print svg{transform:none}
+.hero-visual .route-hero{
+  position:absolute;left:-9%;top:20%;z-index:4;
+  color:#ffe58f;transform:rotate(-18deg);width:215px;pointer-events:none
+}
+.float-toy{background:transparent!important;mix-blend-mode:normal}
+@media(max-width:760px){
+  .hero-visual .route-hero{
+    left:0;top:10%;width:160px;gap:4px;
+    transform:scale(.7) rotate(-18deg);transform-origin:left top
+  }
+}
+@media(max-width:420px){
+  .hero-visual .route-hero{left:-4%;top:5%;transform:scale(.6) rotate(-18deg)}
+}
+@media(prefers-reduced-motion:reduce){.hero-visual .route-hero{display:none}}
