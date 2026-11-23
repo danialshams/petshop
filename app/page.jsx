@@ -56,36 +56,73 @@ function BarkingDog() {
 function Loader({onDone}) {
  const [step,setStep]=useState(0);
  useEffect(()=>{
-   let mounted=true;
-   const started=Date.now();
-   const assets=["/images/dog-loader.gif","/images/hero-golden.webp","/images/hero-dachshund.webp","/images/hero-cat.webp","/images/hero-puppy.webp"];
-   let ready=false;
-   let finished=false;
-   const preload=src=>new Promise(resolve=>{
+   let active=true;
+   let assetsReady=false;
+   let fullLoopPlayed=false;
+   let completed=false;
+   const timers=[];
+   const finish=()=>{
+     if(active && assetsReady && fullLoopPlayed && !completed){
+       completed=true;
+       onDone();
+     }
+   };
+   // Exactly the supplied dog animation: a 6-second transparent WebP loop.
+   const dog=new window.Image();
+   const imageSources=[
+     "/images/hero-golden.webp",
+     "/images/hero-dachshund.webp",
+     "/images/hero-cat.webp",
+     "/images/hero-puppy.webp",
+   ];
+   const prefetch=(src)=>new Promise(resolve=>{
      const img=new window.Image();
      img.onload=resolve; img.onerror=resolve;
      img.src=src;
    });
-   Promise.all(assets.map(preload)).then(()=>{ready=true;});
-   const finish=()=>{if(mounted&&!finished){finished=true;onDone();}};
-   const timer=setInterval(()=>{
-     if(!mounted)return;
-     setStep(prev=>(prev+1)%6);
-     if(ready&&Date.now()-started>=2200){clearInterval(timer);finish();}
-   },270);
-   const fallback=setTimeout(()=>{clearInterval(timer);finish()},5400);
-   return ()=>{mounted=false;clearInterval(timer);clearTimeout(fallback)};
+   Promise.all(imageSources.map(prefetch)).then(()=>{
+     assetsReady=true;
+     finish();
+   });
+   const markLoopFinished=()=>{
+     fullLoopPlayed=true;
+     finish();
+   };
+   dog.onload=()=>{
+     // The animation uses 75 frames at 80ms; never reveal the page before a full loop.
+     timers.push(setTimeout(markLoopFinished,6050));
+   };
+   dog.onerror=()=>{
+     // Fail gracefully, without trapping the customer on the loading screen.
+     timers.push(setTimeout(markLoopFinished,6050));
+   };
+   dog.src="/images/dog-barking-transparent.webp";
+   const progress=setInterval(()=>{
+     if(active)setStep(prev=>(prev+1)%6);
+   },430);
+   // Handle genuinely missing media or stalled image requests.
+   const fallback=setTimeout(()=>{
+     assetsReady=true;
+     fullLoopPlayed=true;
+     finish();
+   },12000);
+   return ()=>{
+     active=false;
+     clearInterval(progress);
+     clearTimeout(fallback);
+     timers.forEach(clearTimeout);
+   };
  },[onDone]);
  return <div className="loading-screen" aria-live="polite">
    <div className="loading-content">
-     <img className="loader-dog" src="/images/dog-loader.gif" alt="سگ بامزه در حال پارس کردن" width="216" height="216" />
+     <img className="loader-dog" src="/images/dog-barking-transparent.webp" alt="سگ بامزه در حال پارس کردن" width="320" height="320" />
      <span className="loading-title">داریم برای خوشحالی کوچولوت آماده می‌شیم!</span>
      <div className="paw-trail" dir="ltr" aria-label="در حال بارگذاری">
        {Array.from({length:6},(_,i)=>{
          const age=(step-i+6)%6;
-         const opacity=age===0?1:age===1?.67:age===2?.34:.10;
+         const opacity=age===0?1:age===1?.72:age===2?.45:age===3?.25:.09;
          return <span key={i} className={"paw-step "+(i%2?"down":"up")} style={{opacity}}>
-           <Icon name="paw" size={25} fill="currentColor" strokeWidth={1.1}/>
+           <Icon name="paw" size={27} fill="currentColor" strokeWidth={1.1}/>
          </span>;
        })}
      </div>
@@ -115,9 +152,10 @@ export default function Home(){
  <div className="site-frame">
  <section id="home" className="hero-shell">
  <header className="topbar">
+ <button className="mobile-paw-menu" type="button" title="منو" aria-label="بازکردن منو" aria-expanded={menu} onClick={()=>setMenu(true)}><Icon name="paw" size={26} fill="currentColor" strokeWidth={1.35}/></button>
  <a className="brand" href="#home" aria-label="خانه کوزی پاوز"><span className="brand-icon"><Icon name="paw" size={29} fill="currentColor"/></span><span>کوزی<span>پاوز</span></span></a>
  <nav className="nav-links" aria-label="فهرست اصلی"><a href="#home" className="active">خانه</a><a href="#shop">فروشگاه</a><a href="#categories">دسته‌بندی‌ها</a><a href="#benefits">ارسال و پرداخت</a><a href="#about">درباره ما</a></nav>
- <div className="top-actions"><button type="button" title="جست‌وجو" aria-label="جست‌وجو" onClick={()=>{setSearchOpen(s=>!s);toShop("همه")}}><Icon name="search"/></button><button type="button" title="علاقه‌مندی‌ها" aria-label="علاقه‌مندی‌ها" onClick={()=>document.getElementById("shop")?.scrollIntoView({behavior:"smooth"})}><Icon name="heart" fill={liked.length?"#ff772b":"none"}/></button><button type="button" title="سبد خرید" aria-label="سبد خرید" onClick={()=>setCartOpen(true)} className="cart-top"><Icon name="bag"/>{cartCount>0&&<span className="count">{cartCount.toLocaleString("fa-IR")}</span>}</button><button className="hamburger" type="button" title="منو" aria-label="بازکردن منو" onClick={()=>setMenu(true)}><Icon name="menu"/></button></div>
+ <div className="top-actions"><button type="button" title="جست‌وجو" aria-label="جست‌وجو" onClick={()=>{setSearchOpen(s=>!s);toShop("همه")}}><Icon name="search"/></button><button type="button" title="علاقه‌مندی‌ها" aria-label="علاقه‌مندی‌ها" onClick={()=>document.getElementById("shop")?.scrollIntoView({behavior:"smooth"})}><Icon name="heart" fill={liked.length?"#ff772b":"none"}/></button><button type="button" title="سبد خرید" aria-label="سبد خرید" onClick={()=>setCartOpen(true)} className="cart-top"><Icon name="bag"/>{cartCount>0&&<span className="count">{cartCount.toLocaleString("fa-IR")}</span>}</button></div>
  </header>
  <div className="hero-stage">
  <div className="hero-wordmark"><h1>هرچی که <span>پتت عاشقشه!</span></h1><p>برای بهترین رفیق دنیا، بهترین‌ها رو انتخاب کن.</p></div>
@@ -148,7 +186,7 @@ export default function Home(){
  </main>
  <footer className="footer"><div className="footer-head"><div><a href="#home" className="brand brand-footer"><span className="brand-icon"><Icon name="paw" size={27} fill="currentColor"/></span><span>کوزی<span>پاوز</span></span></a><p>دنیای رنگیِ دوست‌های پشمالو و کوچولو.</p></div><a href="#home" className="footer-back">برگردیم بالا ↑</a></div><div className="footer-bottom"><span>© کوزی‌پاوز — نسخه نمایشی فروشگاه</span><span>طراحی با عشق به حیوانات 🐾</span></div></footer>
  </div>
- {menu&&<div className="drawer-backdrop" onMouseDown={()=>setMenu(false)}><div className="menu-panel" onMouseDown={e=>e.stopPropagation()}><div className="drawer-head"><strong>منوی فروشگاه</strong><button onClick={()=>setMenu(false)} aria-label="بستن"><Icon name="close"/></button></div>{[{title:"خانه",href:"#home"},{title:"فروشگاه",href:"#shop"},{title:"دسته‌بندی‌ها",href:"#categories"},{title:"ارسال و پرداخت",href:"#benefits"},{title:"درباره ما",href:"#about"}].map(x=><a key={x.href} href={x.href} onClick={()=>setMenu(false)}>{x.title}</a>)}</div></div>}
+ {menu&&<div className="drawer-backdrop menu-backdrop" onMouseDown={()=>setMenu(false)}><div className="menu-panel" onMouseDown={e=>e.stopPropagation()}><div className="drawer-head"><strong>منوی فروشگاه</strong><button onClick={()=>setMenu(false)} aria-label="بستن"><Icon name="close"/></button></div>{[{title:"خانه",href:"#home"},{title:"فروشگاه",href:"#shop"},{title:"دسته‌بندی‌ها",href:"#categories"},{title:"ارسال و پرداخت",href:"#benefits"},{title:"درباره ما",href:"#about"}].map(x=><a key={x.href} href={x.href} onClick={()=>setMenu(false)}>{x.title}</a>)}</div></div>}
  {cartOpen&&<div className="drawer-backdrop" onMouseDown={()=>setCartOpen(false)}><aside className="cart-drawer" aria-label="سبد خرید" onMouseDown={e=>e.stopPropagation()}><div className="drawer-head"><strong>سبد خرید <span>({cartCount.toLocaleString("fa-IR")})</span></strong><button onClick={()=>setCartOpen(false)} aria-label="بستن سبد خرید"><Icon name="close"/></button></div>{cartCount===0?<div className="empty-cart"><Icon name="bag" size={56}/><h3>اینجا هنوز خالیه!</h3><p>یه چیز خوشمزه برای رفیقت پیدا کن.</p><button className="dark-button" onClick={()=>{setCartOpen(false);toShop("همه")}}>بریم فروشگاه</button></div>:<><div className="cart-items">{products.filter(p=>cart[p.id]).map(p=><div className="cart-item" key={p.id}><span className="cart-item-icon" style={{background:p.bg}}>{p.art}</span><div className="cart-item-info"><h4>{p.name}</h4><span>{price(p.price)}</span><div className="quantity"><button onClick={()=>change(p.id,-1)} aria-label="کم‌کردن"><Icon name="minus" size={16}/></button><b>{cart[p.id].toLocaleString("fa-IR")}</b><button onClick={()=>change(p.id,1)} aria-label="افزودن"><Icon name="plus" size={16}/></button></div></div></div>)}</div><div className="cart-total"><span>جمع سفارش</span><strong>{price(cartPrice)}</strong><button className="checkout-demo" disabled>پرداخت در نسخه نمایشی غیرفعال است</button></div></>}</aside></div>}
  </>;
 }
