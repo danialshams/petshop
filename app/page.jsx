@@ -70,8 +70,8 @@ function Loader({onDone}) {
    // Exactly the supplied dog animation: a 6-second transparent WebP loop.
    const dog=new window.Image();
    const imageSources=[
-     "/images/hero-scene-desktop.webp",
-     "/images/hero-scene-mobile.webp",
+     "/images/hero-ledged-desktop.webp",
+     "/images/hero-ledged-mobile.webp",
      "/images/hero-puppy.webp",
    ];
    const prefetch=(src)=>new Promise(resolve=>{
@@ -163,8 +163,8 @@ export default function Home(){
  </div>
  <div className="hero-scene" aria-label="سه حیوان با پنجه‌هایشان روی لبه کارت‌های فروشگاه">
    <picture className="hero-scene-picture">
-     <source media="(max-width: 760px)" srcSet="/images/hero-scene-mobile.webp" />
-     <img className="hero-scene-image" src="/images/hero-scene-desktop.webp" alt="سگ داشهوند، گلدن رتریور خندان و گربه نارنجی، با پنجه‌هایشان بر لبه سه سکشن سبز" width="1600" height="940" fetchPriority="high" />
+     <source media="(max-width: 760px)" srcSet="/images/hero-ledged-mobile.webp" />
+     <img className="hero-scene-image" src="/images/hero-ledged-desktop.webp" alt="سگ داشهوند، گلدن رتریور خندان و گربه نارنجی، با پنجه‌هایشان بر لبه سه سکشن سبز" width="1600" height="845" fetchPriority="high" />
    </picture>
    <div className="hero-scene-captions">
      <div className="hero-scene-caption hero-scene-caption--left">
