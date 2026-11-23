@@ -3,12 +3,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 const photos = {
- golden: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1100&q=90",
- dachshund: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?auto=format&fit=crop&w=700&q=85",
- ginger: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?auto=format&fit=crop&w=700&q=85",
- puppy: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=600&q=85",
- happy: "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=1200&q=85",
- cat: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?auto=format&fit=crop&w=900&q=85",
+ golden: "/images/hero-golden.webp",
+ dachshund: "/images/hero-dachshund.webp",
+ ginger: "/images/hero-cat.webp",
+ puppy: "/images/hero-puppy.webp",
+ happy: "/images/hero-golden.webp",
+ cat: "/images/hero-cat.webp",
 };
 const products = [
  {id:1,name:"تشویقی خوشمزه سگ",kind:"سگ",price:285000,old:350000,tag:"محبوب",art:"🦴",bg:"#fff0db"},
@@ -56,14 +56,41 @@ function BarkingDog() {
 function Loader({onDone}) {
  const [step,setStep]=useState(0);
  useEffect(()=>{
-  let mounted=true;
-  const image=new window.Image(); image.src=photos.golden;
-  let isLoaded=false;image.onload=()=>{isLoaded=true};image.onerror=()=>{isLoaded=true};
-  let n=0;const interval=setInterval(()=>{if(!mounted)return;n=Math.min(6,n+1);setStep(n);if(n>=6 && isLoaded){clearInterval(interval);setTimeout(()=>mounted&&onDone(),320)}},285);
-  const fallback=setTimeout(()=>{if(mounted){setStep(6);clearInterval(interval);setTimeout(()=>mounted&&onDone(),320)}},3400);
-  return ()=>{mounted=false;clearInterval(interval);clearTimeout(fallback)};
+   let mounted=true;
+   const started=Date.now();
+   const assets=["/images/dog-loader.gif","/images/hero-golden.webp","/images/hero-dachshund.webp","/images/hero-cat.webp","/images/hero-puppy.webp"];
+   let ready=false;
+   let finished=false;
+   const preload=src=>new Promise(resolve=>{
+     const img=new window.Image();
+     img.onload=resolve; img.onerror=resolve;
+     img.src=src;
+   });
+   Promise.all(assets.map(preload)).then(()=>{ready=true;});
+   const finish=()=>{if(mounted&&!finished){finished=true;onDone();}};
+   const timer=setInterval(()=>{
+     if(!mounted)return;
+     setStep(prev=>(prev+1)%6);
+     if(ready&&Date.now()-started>=2200){clearInterval(timer);finish();}
+   },270);
+   const fallback=setTimeout(()=>{clearInterval(timer);finish()},5400);
+   return ()=>{mounted=false;clearInterval(timer);clearTimeout(fallback)};
  },[onDone]);
- return <div className="loading-screen" aria-live="polite"><div className="loading-content"><BarkingDog/><span className="loading-title">داریم برای خوشحالی کوچولوت آماده می‌شیم!</span><div className="paw-trail" dir="ltr" aria-label="در حال بارگذاری">{Array.from({length:6},(_,i)=><span key={i} className={"paw-step "+(i%2?"down":"up")+(i<step?" stepped":"")} style={{"--i":i}}><Icon name="paw" size={22} fill="currentColor" strokeWidth={1.1}/></span>)}</div><span className="loading-percent">{Math.round(step/6*100).toLocaleString("fa-IR")}٪</span></div></div>;
+ return <div className="loading-screen" aria-live="polite">
+   <div className="loading-content">
+     <img className="loader-dog" src="/images/dog-loader.gif" alt="سگ بامزه در حال پارس کردن" width="216" height="216" />
+     <span className="loading-title">داریم برای خوشحالی کوچولوت آماده می‌شیم!</span>
+     <div className="paw-trail" dir="ltr" aria-label="در حال بارگذاری">
+       {Array.from({length:6},(_,i)=>{
+         const age=(step-i+6)%6;
+         const opacity=age===0?1:age===1?.67:age===2?.34:.10;
+         return <span key={i} className={"paw-step "+(i%2?"down":"up")} style={{opacity}}>
+           <Icon name="paw" size={25} fill="currentColor" strokeWidth={1.1}/>
+         </span>;
+       })}
+     </div>
+   </div>
+ </div>;
 }
 function CatTree(){return <div className="cat-tree" aria-label="خانه چند طبقه گربه"><div className="tree-roof"/><div className="tree-pole pole-one"/><div className="tree-pole pole-two"/><div className="tree-middle"/><div className="tree-house"><span/></div><div className="tree-floor"/></div>}
 export default function Home(){
