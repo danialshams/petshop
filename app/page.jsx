@@ -161,14 +161,30 @@ export default function Home(){
  <div className="hero-wordmark"><h1>هرچی که <span>پتت عاشقشه!</span></h1><p>برای بهترین رفیق دنیا، بهترین‌ها رو انتخاب کن.</p></div>
  <div className="hero-feature"><CatTree/><div className="feature-details"><span>خانه گربه کوزی</span><strong>۹۸۰ هزار تومان</strong></div><button aria-label="مشاهده خانه گربه" onClick={()=>toShop("گربه")} className="feature-arrow"><Icon name="arrow" size={19}/></button></div>
  <div className="side-review"><div className="side-review-photo"><img src={photos.puppy} alt="سگ کوچک" loading="eager"/></div><p>ویدیوهای بامزه و نظر صاحبان پت‌ها</p><span>دیدن تجربه‌ها <Icon name="arrow" size={13}/></span></div>
- <div className="hero-dog"><img src={photos.golden} alt="گلدن رتریور شاد در مرکز پت شاپ" fetchPriority="high"/></div>
- <div className="hero-lower-pet pet-left"><img src={photos.dachshund} alt="سگ بانمک گوشه پایین" loading="eager"/></div>
- <div className="hero-lower-pet pet-right"><img src={photos.ginger} alt="گربه نارنجی کنجکاو" loading="eager"/></div>
  </div>
- <div className="hero-bottom">
- <div className="bottom-stat"><strong>۹۸ هزار <span className="stat-paw">🐾</span></strong><p>همراه خوشحال و رفیق‌های پشمالوشون</p></div>
- <div className="bottom-cta"><h2>بهترین‌ها برای<br/>دوست کوچولوت</h2><button className="pill-button" onClick={()=>toShop("همه")}>مشاهده محصولات <span><Icon name="arrow" size={17}/></span></button></div>
- <div className="bottom-stat"><strong>۴.۶ <span className="stars">★</span></strong><p>از نظر صاحبان حیوانات دوست‌داشتنی</p></div>
+
+ <div className="hero-pet-panels" aria-label="دوست‌های پشمالوی کوزی‌پاوز">
+   <section className="hero-pet-panel hero-pet-panel--left">
+     <img className="hero-pet-panel-media" src="/images/pet-tile-dachshund.webp" alt="سگ داشهوند با پنجه‌ها روی لبه کارت سبز" width="500" height="580" fetchPriority="high" />
+     <div className="hero-pet-panel-caption">
+       <strong className="hero-pet-stat"><span aria-hidden="true" className="hero-stat-symbol">★</span> ۴.۶</strong>
+       <p>از نظر صاحب‌های حیوانات دوست‌داشتنی</p>
+     </div>
+   </section>
+   <section className="hero-pet-panel hero-pet-panel--middle">
+     <img className="hero-pet-panel-media" src="/images/pet-tile-golden.webp" alt="سگ گلدن رتریور خندان با پنجه‌ها روی لبه سکشن وسط" width="500" height="580" fetchPriority="high" />
+     <div className="hero-pet-panel-caption">
+       <h2>بهترین‌ها برای<br/>دوست کوچولوت</h2>
+       <button type="button" className="pill-button" onClick={()=>toShop("همه")}>مشاهده محصولات <span><Icon name="arrow" size={17}/></span></button>
+     </div>
+   </section>
+   <section className="hero-pet-panel hero-pet-panel--right">
+     <img className="hero-pet-panel-media" src="/images/pet-tile-cat.webp" alt="گربه نارنجی با پنجه‌ها روی لبه کارت سبز" width="500" height="580" fetchPriority="high" />
+     <div className="hero-pet-panel-caption">
+       <strong className="hero-pet-stat">۹۸ هزار <span aria-hidden="true" className="hero-stat-symbol hero-stat-paws">🐾</span></strong>
+       <p>همراه خوشحال و رفیق‌های پشمالوشون</p>
+     </div>
+   </section>
  </div>
  </section>
  <div className="ticker"><div>🐾 با عشق برای کوچولوها&nbsp;&nbsp; ✦ &nbsp;&nbsp;غذا و تشویقی&nbsp;&nbsp; ✦ &nbsp;&nbsp;اسباب‌بازی و سرگرمی&nbsp;&nbsp; ✦ &nbsp;&nbsp;برای هر پنجه یک خوشحالی&nbsp;&nbsp; ✦ &nbsp;&nbsp;خرید راحت و دوست‌داشتنی&nbsp;&nbsp; ✦ &nbsp;&nbsp;</div></div>

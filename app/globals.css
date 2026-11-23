@@ -298,3 +298,57 @@
     padding-top: 15px;
   }
 }
+
+
+/* Unified illustrated cards: animal + actual background are one immutable WebP.
+   Never stretch the dog over independently positioned UI panels. */
+.hero-stage{height:clamp(445px,36vw,550px)!important}
+.hero-pet-panels{
+  direction:ltr; display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  width:min(100%,1600px); margin:clamp(-363px,-22.6667vw,-90px) auto 0;
+  position:relative; z-index:15; isolation:isolate;
+}
+.hero-pet-panel{position:relative; min-width:0; padding:0; aspect-ratio:500/580; overflow:visible; background:#91e39e}
+.hero-pet-panel--middle{background:#004219; color:white}
+.hero-pet-panel-media{
+  display:block; width:100%; height:auto; aspect-ratio:500/580;
+  object-fit:contain; object-position:top; pointer-events:none; user-select:none;
+}
+.hero-pet-panel-caption{
+  position:absolute; z-index:1; bottom:clamp(18px,2vw,30px);
+  left:10px; right:10px; direction:rtl; display:flex;
+  align-items:center; justify-content:flex-end; flex-direction:column;
+  gap:10px; text-align:center; min-height:96px;
+}
+.hero-pet-stat{font-size:clamp(24px,2.9vw,48px);font-weight:900;letter-spacing:-1px;white-space:nowrap;line-height:1.35;color:#04391f}
+.hero-stat-symbol{color:#ff8724;font-size:.77em;vertical-align:baseline;display:inline-block}
+.hero-stat-paws{font-size:.52em;vertical-align:middle}
+.hero-pet-panel-caption p{max-width:270px;font-size:clamp(11px,1.05vw,14px);line-height:1.8;color:#3f7850;margin:0;font-weight:500}
+.hero-pet-panel-caption h2{font-size:clamp(18px,1.65vw,27px);line-height:1.45;margin:0;color:white}
+.hero-pet-panel-caption .pill-button{align-self:center}
+@media(max-width:760px){
+ .topbar{position:relative;justify-content:space-between}
+ .topbar .brand{position:absolute;left:50%;transform:translateX(-50%);margin:0;min-width:0;order:0;font-size:20px;z-index:1;pointer-events:auto}
+ .topbar .brand-icon{display:flex}
+ .topbar .mobile-paw-menu{order:0;margin-inline-end:auto;position:relative;z-index:2}
+ .topbar .top-actions{order:2;margin-inline-start:auto;position:relative;z-index:2}
+ .hero-stage{height:clamp(405px,116vw,510px)!important}
+ .hero-pet-panels{
+   width:132vw;max-width:none;left:50%;transform:translateX(-50%);
+   margin-top:calc(-132vw * .226667);grid-template-columns:repeat(3,minmax(0,1fr));
+ }
+ .hero-pet-panel{aspect-ratio:auto;min-height:clamp(235px,62vw,320px);overflow:hidden}
+ .hero-pet-panel-media{width:100%;height:auto;aspect-ratio:500/580;object-fit:contain}
+ .hero-pet-panel-caption{bottom:12px;left:4px;right:4px;gap:5px;min-height:auto}
+ .hero-pet-stat{font-size:clamp(18px,5vw,28px);letter-spacing:-.4px}
+ .hero-pet-panel-caption p{font-size:clamp(8px,2vw,11px);line-height:1.55}
+ .hero-pet-panel-caption h2{font-size:clamp(12px,3vw,17px);line-height:1.55}
+ .hero-pet-panel-caption .pill-button{gap:4px;font-size:clamp(8px,1.9vw,11px);padding:4px 7px 4px 4px}
+ .hero-pet-panel-caption .pill-button span{height:24px;width:24px}
+}
+@media(max-width:400px){
+ .topbar .brand{font-size:17px}
+ .topbar .brand-icon svg{width:23px;height:23px}
+ .hero-pet-panel{min-height:245px}
+ .hero-pet-panel-caption{bottom:11px}
+}
