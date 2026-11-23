@@ -87,8 +87,8 @@ export default function Home() {
   useEffect(()=>{document.body.style.overflow = menu || cartOpen ? "hidden" : "";return()=>{document.body.style.overflow="";}},[menu,cartOpen]);
   return <>
     {loading && <Loader done={()=>setLoading(false)}/> }
-    <MotionController active={!loading}/>
     <div className="website">
+      <MotionController active={!loading}/>
       <div className="announcement"><span>🐾 تا ۳۰٪ تخفیف برای محصولات منتخب</span><span>ارسال رایگان سفارش‌های بالای ۲ میلیون تومان 🚚</span></div>
       <section className="hero-wrap" id="home">
         <header className="header container">

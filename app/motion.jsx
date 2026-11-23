@@ -79,7 +79,10 @@ export default function MotionController({ active }) {
       const route=overlay.querySelector(`[data-animal="${kind}"]`);
       if(!route){timer=gsap.delayedCall(2.5,runNext);return;}
       const footprints=[...route.querySelectorAll('.paw-footprint')];
-      gsap.set(route,{autoAlpha:1,x:point.x,y:point.y,rotation:randomBetween(-20,20),scale:point.scale});
+      // Anchoring the footprints in document coordinates keeps them on the
+      // actual section when the user scrolls, instead of following the viewport.
+      const hostRect=host.getBoundingClientRect();
+      gsap.set(route,{autoAlpha:1,x:point.x-hostRect.left,y:point.y-hostRect.top,rotation:randomBetween(-20,20),scale:point.scale});
       gsap.set(footprints,{autoAlpha:0,scale:.79});
       pawTimeline=gsap.timeline({onComplete:()=>{
         gsap.set(route,{autoAlpha:0});

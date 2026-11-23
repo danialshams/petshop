@@ -204,3 +204,31 @@
   .selector-product-photo{width:68px;height:68px}
   .selector-add{width:30px;height:30px}
 }
+
+
+/* V14: Pawprints belong to document content, not the user's viewport. */
+.website{position:relative}
+.website>.paw-trot-overlay{
+  position:absolute!important;top:0!important;left:0!important;
+  bottom:0!important;right:0!important;width:100%;height:100%;
+  overflow:visible;pointer-events:none;z-index:24;isolation:auto;
+}
+/* Prevent the promo subtitle from hiding under the close control. */
+.menu-drawer .colorful-head{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  min-height:165px;padding:24px 20px 25px;
+  gap:12px;direction:rtl;
+}
+.menu-drawer .colorful-head>div{align-items:flex-start;min-width:0;max-width:calc(100% - 52px);gap:7px;flex:1}
+.menu-drawer .colorful-head strong{font-size:clamp(17px,4.7vw,21px);line-height:1.5;white-space:normal;overflow-wrap:anywhere}
+.menu-drawer .colorful-head small{
+  display:block;position:static;width:100%;font-size:13px;line-height:1.75;
+  color:#fff;opacity:1;white-space:normal;overflow-wrap:break-word;
+  margin-top:2px;text-shadow:0 1px 2px #54117e55
+}
+.menu-drawer .colorful-head button{position:relative;left:auto;top:auto;margin:0;align-self:flex-start;flex:0 0 38px}
+@media(max-width:390px){
+ .menu-drawer .colorful-head{min-height:168px;padding-inline:16px}
+ .menu-drawer .colorful-head>div{max-width:calc(100% - 46px)}
+ .menu-drawer .colorful-head small{font-size:12px}
+}
