@@ -50,126 +50,251 @@
 .paw-step svg{transform:rotate(90deg)}
 .loading-percent{display:none}
 
-/* 2026-11: Photo cutouts are now cleaned, without a light matte or drop-shadow.
-   Both side pets should occupy approximately 80% of the center dog's size. */
-.hero-shell,.hero-stage{overflow:visible}
-.hero-stage{isolation:auto}
-.hero-dog{
-  width:clamp(350px,37vw,525px);
-  height:clamp(390px,37vw,525px);
-  bottom:-76px;
-  z-index:11;
-  border-radius:0;
-  mask-image:none;
-  overflow:visible
-}
-.hero-dog img{
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  object-position:bottom center;
-  mix-blend-mode:normal;
-  filter:none!important;
-}
-.hero-lower-pet{
-  width:clamp(280px,30vw,425px);
-  height:clamp(305px,30vw,425px);
-  bottom:-80px;
-  z-index:9;
-  border-radius:0;
-  mask-image:none;
-  overflow:visible;
-}
-.hero-lower-pet img{
-  display:block;
-  height:100%;
-  width:100%;
-  object-fit:contain;
-  object-position:bottom center;
-  filter:none!important;
-}
-.pet-left{left:-2.4%}
-.pet-right{right:-2.4%}
-.hero-bottom{z-index:6}
 
-/* Paw prints point sideways along the direction of travel, not upwards. */
-.paw-trail{direction:ltr;display:flex;gap:18px}
-.paw-step{display:grid;place-items:center;flex:0 0 30px;transition:opacity .45s ease}
-.paw-step.up{margin-top:-20px;transform:none}
-.paw-step.down{margin-top:20px;transform:none}
-.paw-step svg{transform:rotate(90deg)!important;transform-origin:center center}
-
-/* The original dog is now a genuine transparent animated WebP. */
-.loader-dog{
-  width:clamp(175px,20vw,260px);
-  aspect-ratio:1;
-  height:auto;
-  object-fit:contain;
-  mix-blend-mode:normal;
-  animation:none!important;
-  filter:none!important
+/* 2026-11-23 — Precise pet cutouts, seam alignment, and a centered mobile mark.
+   Every pet is a transparent local WebP. No artificial matte or drop shadow. */
+.hero-shell,
+.hero-stage {
+  overflow: visible;
+}
+.hero-stage {
+  isolation: auto;
+}
+.hero-dog {
+  position: absolute;
+  left: 50%;
+  bottom: -108px;
+  width: clamp(350px, 36.8vw, 480px);
+  height: clamp(350px, 35vw, 455px);
+  z-index: 11;
+  transform: translateX(-50%);
+  overflow: visible;
+  border-radius: 0;
+  mask-image: none;
+  pointer-events: none;
+}
+.hero-dog img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  object-position: center bottom;
+  mix-blend-mode: normal;
+  filter: none !important;
+  transform: none;
+}
+.hero-lower-pet {
+  position: absolute;
+  bottom: -42px;
+  width: clamp(250px, 27vw, 355px);
+  height: clamp(185px, 18vw, 235px);
+  z-index: 10;
+  overflow: visible;
+  border-radius: 0;
+  mask-image: none;
+  pointer-events: none;
+}
+.hero-lower-pet img {
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: fill;
+  object-position: center bottom;
+  filter: none !important;
+  transform: none;
+}
+.pet-left {
+  left: clamp(0px, 1.2vw, 22px);
+}
+.pet-right {
+  right: clamp(0px, 1.2vw, 22px);
+}
+.hero-bottom {
+  z-index: 6;
+}
+.bottom-cta {
+  padding-top: 26px;
+}
+.bottom-cta h2 {
+  position: relative;
+  z-index: 1;
 }
 
-/* The menu uses a right-hand paw trigger and slides out from the right in RTL. */
-.mobile-paw-menu{display:none}
-.menu-backdrop{
-  direction:rtl;
-  justify-content:flex-start;
-  align-items:stretch
+/* RTL mobile header: drawer control right, logo mark dead-center,
+   search and cart left. The paw is the centered brand icon. */
+.mobile-paw-menu {
+  display: none;
 }
-.menu-backdrop .menu-panel{
-  margin-right:0;
-  margin-left:auto;
-  transform-origin:right center;
-  animation:menuEnterFromRight .35s cubic-bezier(.22,.7,.22,1) both
+.menu-backdrop {
+  direction: rtl;
+  justify-content: flex-start;
+  align-items: stretch;
 }
-@keyframes menuEnterFromRight{
-  from{transform:translateX(100%);opacity:.92}
-  to{transform:translateX(0);opacity:1}
+.menu-backdrop .menu-panel {
+  margin-right: 0;
+  margin-left: auto;
+  transform-origin: right center;
+  animation: menuEnterFromRight .35s cubic-bezier(.22,.7,.22,1) both;
 }
-@media(max-width:760px){
-  .topbar{direction:rtl;justify-content:flex-start;gap:10px}
-  .mobile-paw-menu{
-    order:0;
-    display:grid;
-    place-items:center;
-    flex:0 0 42px;
-    width:42px;
-    height:42px;
-    padding:0;
-    background:transparent;
-    color:#064225;
-    border:0;
-    border-radius:14px;
+@keyframes menuEnterFromRight {
+  from {transform: translateX(100%); opacity: .92}
+  to {transform: translateX(0); opacity: 1}
+}
+
+@media (max-width: 900px) and (min-width: 761px) {
+  .hero-dog {
+    width: 39vw;
+    height: 38vw;
+    bottom: -78px;
   }
-  .topbar .brand{order:1;min-width:0;margin-inline-end:auto;font-size:21px}
-  .topbar .top-actions{order:2;flex-shrink:0;margin-inline-start:0;gap:4px}
-  .top-actions .hamburger{display:none!important}
-  .hero-stage{height:clamp(470px,127vw,590px)}
-  .hero-dog{
-    width:clamp(245px,76vw,370px);
-    height:clamp(280px,81vw,400px);
-    bottom:-48px;
-    z-index:11
+  .hero-lower-pet {
+    width: 29vw;
+    height: 19vw;
+    bottom: -34px;
   }
-  .hero-lower-pet{
-    width:clamp(190px,56vw,290px);
-    height:clamp(205px,58vw,310px);
-    bottom:-55px;
-    z-index:9
-  }
-  .pet-left{left:-13vw}
-  .pet-right{right:-13vw}
-  .hero-bottom{z-index:6}
 }
-@media(max-width:400px){
-  .topbar .brand{font-size:19px}
-  .topbar{gap:7px}
-  .mobile-paw-menu{flex-basis:38px;width:38px;height:38px}
-  .hero-stage{height:480px}
-  .hero-dog{width:79vw;height:315px;bottom:-48px}
-  .hero-lower-pet{width:56vw;height:226px;bottom:-55px}
-  .pet-left{left:-13vw}
-  .pet-right{right:-13vw}
+
+@media (max-width: 760px) {
+  .topbar {
+    height: 72px;
+    display: flex;
+    direction: rtl;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    gap: 8px;
+    padding-inline: 18px;
+  }
+  .mobile-paw-menu {
+    order: 0;
+    display: grid;
+    flex: 0 0 42px;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border: 0;
+    border-radius: 14px;
+    color: #063b20;
+    background: transparent;
+  }
+  .mobile-paw-menu:hover {
+    background: #d8f4dc;
+  }
+  .topbar .brand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    min-width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    transform: translate(-50%, -50%);
+    order: 1;
+  }
+  .topbar .brand > span:last-child {
+    display: none;
+  }
+  .topbar .brand .brand-icon {
+    display: grid;
+    place-items: center;
+    color: #ff782b;
+    transform: rotate(-12deg);
+  }
+  .topbar .brand .brand-icon svg {
+    width: 33px;
+    height: 33px;
+  }
+  .topbar .top-actions {
+    order: 2;
+    display: flex;
+    flex-shrink: 0;
+    margin-inline-start: auto;
+    margin-inline-end: 0;
+    gap: 4px;
+  }
+  .topbar .top-actions button:nth-child(2) {
+    display: none;
+  }
+  .top-actions .hamburger {
+    display: none !important;
+  }
+  .hero-stage {
+    height: clamp(480px, 123vw, 565px);
+  }
+  .hero-wordmark {
+    top: 47px;
+  }
+  .hero-dog {
+    width: clamp(242px, 75vw, 340px);
+    height: clamp(256px, 77vw, 335px);
+    bottom: -64px;
+    z-index: 11;
+  }
+  .hero-lower-pet {
+    width: clamp(156px, 46vw, 225px);
+    height: clamp(112px, 29vw, 162px);
+    bottom: -26px;
+    z-index: 10;
+  }
+  .pet-left {
+    left: -8vw;
+  }
+  .pet-right {
+    right: -8vw;
+  }
+  .hero-bottom {
+    z-index: 6;
+    height: 162px;
+  }
+  .bottom-cta {
+    padding-top: 18px;
+  }
+  .bottom-cta h2 {
+    font-size: 13px;
+  }
+  .bottom-stat {
+    padding: 18px 5px 12px;
+  }
+  .bottom-stat strong {
+    font-size: 23px;
+  }
+}
+@media (max-width: 400px) {
+  .topbar {
+    padding-inline: 13px;
+  }
+  .mobile-paw-menu {
+    width: 39px;
+    height: 39px;
+    flex-basis: 39px;
+  }
+  .hero-stage {
+    height: 490px;
+  }
+  .hero-dog {
+    width: 76vw;
+    height: 79vw;
+    bottom: -55px;
+  }
+  .hero-lower-pet {
+    width: 48vw;
+    height: 30vw;
+    bottom: -24px;
+  }
+  .pet-left {
+    left: -10vw;
+  }
+  .pet-right {
+    right: -10vw;
+  }
+  .hero-bottom {
+    height: 158px;
+  }
+  .bottom-cta {
+    padding-top: 15px;
+  }
 }
