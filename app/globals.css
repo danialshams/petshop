@@ -22,3 +22,90 @@
 @media(max-width:760px){.container{width:calc(100% - 32px)}.announcement{justify-content:center;font-size:10px;padding:7px 12px}.announcement span:first-child{display:none}.hero-wrap{min-height:0}.header{height:68px;display:grid;grid-template-columns:1fr auto 1fr;gap:5px}.mobile-menu{display:grid;place-items:center;justify-self:start;grid-column:1;grid-row:1;width:42px;height:42px;background:#ffffff20;color:#fff;border:0;border-radius:50%}.logo{grid-column:2;grid-row:1;font-size:20px}.logo .logo-mark{color:var(--orange)}.logo small{font-size:7px;letter-spacing:2px}.header-actions{grid-column:3;grid-row:1;justify-self:end;gap:4px}.header-actions button{width:34px}.header-actions button:nth-child(2){display:none}.navigation{display:none}.hero-main{display:flex;flex-direction:column;min-height:0;gap:0;padding:15px 0 82px}.hero-copy{width:100%;text-align:center;padding-top:8px}.hero-offer{font-size:11px;margin:0 0 7px}.hero-copy h1{font-size:clamp(33px,8.5vw,53px);line-height:1.34;margin-bottom:10px}.hero-copy h1 br:nth-child(2){display:none}.hero-copy p{font-size:12px;line-height:1.9;max-width:420px;margin:0 auto 13px}.btn{font-size:13px}.btn span{width:31px;height:31px}.hero-social{display:none}.hero-visual{width:100%;height:290px;align-self:center;margin-top:14px}.hero-beagle{height:315px;max-width:90%;transform:translateY(33px)}.hero-sun{width:270px;height:270px;bottom:4px}.hero-spark.one{top:5px;left:12%}.hero-spark.two{top:14px;right:8%}.hero-loop{top:2%;right:8%;font-size:54px}.hero-wave{height:65px}.categories{padding-top:25px;padding-bottom:55px}.section-title h2{font-size:29px}.category-list{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:24px;gap:12px;margin-top:25px}.category-picture{width:min(26vw,136px);height:min(26vw,136px)}.category strong{font-size:15px}.category small{font-size:10px}.offers{grid-template-columns:1fr;gap:35px;margin-bottom:75px}.offer{min-height:225px}.offer-copy{padding:26px;width:63%}.offer h3{font-size:26px}.offer-animal{width:40%;height:120%;left:0}.shop{padding-bottom:70px}.shop-title{align-items:start;flex-direction:column;gap:0}.shop-tools{display:block;margin:23px 0}.filters{overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px}.filters button{white-space:nowrap;flex-shrink:0}.search-field{margin-top:13px}.search-field input{width:100%}.product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}.product-picture{height:190px}.product-meta h3{font-size:13px}.price b{font-size:12px}.price s{font-size:10px}.add-cart{width:32px;height:32px;bottom:12px}.pack{transform:scale(.8)}.art-ball-shape{width:120px;height:120px}.art-bed-shape{transform:scale(.8)}.art-bowl-shape{transform:scale(.76)}.art-bone-shape{transform:rotate(-30deg) scale(.78)}.story-banner{margin-bottom:75px}.story-inner{min-height:350px}.story-text{width:65%}.story-text h2{font-size:32px}.story-art{width:40%;height:330px}.story-disc{width:200px;height:200px}.story-art img{height:310px}.benefits{padding-bottom:70px}.benefit-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:26px}.benefit{padding:23px 13px}.benefit strong{font-size:14px}.benefit p{font-size:11px}.newsletter{margin-bottom:50px;min-height:280px}.newsletter-copy{padding:27px 22px;width:75%}.newsletter h2{font-size:27px}.newsletter-copy p{font-size:12px}.newsletter-image{left:0;width:29%}.newsletter form{flex-direction:column;max-width:230px}.newsletter form button{justify-content:center}.footer{padding-top:50px}.footer-inner{grid-template-columns:repeat(2,minmax(0,1fr));gap:30px}.footer-brand{grid-column:1/-1}.copyright{flex-direction:column;gap:5px;text-align:center}.loader-body>img{width:205px}}
 @media(max-width:420px){.header .logo{font-size:19px}.header .logo-mark svg{height:27px;width:27px}.header-actions{gap:0}.header-actions button{width:32px}.hero-copy h1{font-size:35px}.hero-main{padding-bottom:69px}.hero-visual{height:245px}.hero-beagle{height:275px;transform:translateY(24px)}.hero-sun{height:220px;width:220px}.category-list{gap:8px}.category-picture{width:27vw;height:27vw}.category strong{font-size:13px}.offer{min-height:210px}.offer-copy{width:66%;padding:22px}.offer h3{font-size:23px}.offer-animal{width:39%;height:109%}.product-picture{height:162px}.pack{transform:scale(.68)}.art-ball-shape{transform:scale(.82)}.story-inner{min-height:340px}.story-text{width:68%}.story-text h2{font-size:26px}.story-art{width:31%}.story-art img{height:242px;max-width:170px}.story-disc{height:155px;width:155px}.story-text p{font-size:11px}.story-text .btn{font-size:11px;gap:5px;padding:5px 13px 5px 5px}.newsletter-image{width:27%}.newsletter-copy{width:81%}.newsletter h2{font-size:25px}.footer-inner{gap:20px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* PETFOOD V10 — product photography, purposeful motion, floating toys */
+.hero-wrap{overflow:visible}
+.hero-main{isolation:isolate}
+.hero-visual{z-index:5;overflow:visible;isolation:isolate}
+.hero-sun{z-index:-1}
+.hero-beagle{
+  height:470px;max-height:none;width:auto;object-fit:contain;
+  transform:translateY(70px);z-index:5;
+  filter:drop-shadow(0 8px 8px rgba(65,13,52,.10));
+}
+.hero-wave{z-index:3;bottom:-1px}
+.float-toy{position:absolute;width:100px;height:100px;object-fit:contain;z-index:6;pointer-events:none;will-change:transform;filter:drop-shadow(0 12px 9px #29092b27)}
+.float-toy--rope{left:4%;top:32%;width:102px;height:102px;transform:rotate(-22deg)}
+.float-toy--bone{right:2%;top:16%;width:95px;height:105px;transform:rotate(23deg)}
+.float-toy--bowl{right:2%;bottom:12px;width:120px;height:90px;transform:rotate(-8deg)}
+.hero-social{position:relative;z-index:5}
+.product-picture{background-image:radial-gradient(ellipse at 50% 35%,#ffffffac,transparent 72%);overflow:hidden;isolation:isolate}
+.product-photo{height:83%;width:88%;object-fit:contain;object-position:center;position:relative;z-index:1;transition:transform .55s cubic-bezier(.2,.85,.2,1),filter .5s;filter:drop-shadow(0 10px 8px #381a2620)}
+.product-card:hover .product-photo{transform:scale(1.09) rotate(-3deg);filter:drop-shadow(0 14px 10px #381a2630)}
+.cart-item-emoji{overflow:hidden}.cart-item-emoji img{width:95%;height:95%;object-fit:contain}
+/* Layered candy-colored drawer, unmistakable contrast and spacious touch targets */
+.menu-drawer{background:linear-gradient(153deg,#fbecff 0%,#fff6f1 45%,#edfff1 100%);color:#3d1454;padding:0 21px 23px;gap:11px;overflow-y:auto}
+.menu-drawer .colorful-head{border:0;background:linear-gradient(128deg,#862bd8,#a643df 48%,#ff9d29);color:#fff;padding:26px 20px 20px;margin:0 -21px 12px;position:relative;min-height:125px;align-items:flex-start;box-shadow:0 16px 22px #6c1a8220}
+.colorful-head>div{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
+.colorful-head strong{font-size:21px;font-weight:900}.colorful-head small{font-size:12px;color:#fff8;opacity:1}.drawer-paw{display:grid;place-items:center;color:#ffdb5b;background:#ffffff2c;border-radius:14px;width:39px;height:39px;margin-bottom:7px;transform:rotate(-9deg)}
+.colorful-head button{flex:0 0 auto;background:#ffffff2b;border:1px solid #fff6;color:white;width:38px;height:38px}
+.menu-drawer .menu-tile{display:flex;align-items:center;gap:14px;width:100%;padding:13px 13px;border:1px solid #fff;border-bottom:3px solid #ffffff8f;border-radius:18px;color:#371445;font-size:16px;font-weight:900;box-shadow:0 4px 15px #5b134310;text-align:right;transition:transform .25s,box-shadow .25s}
+.menu-drawer .menu-tile:nth-of-type(2){background:#fbd1ff}.menu-drawer .menu-tile:nth-of-type(3){background:#ffdd9d}.menu-drawer .menu-tile:nth-of-type(4){background:#c9f7dc}.menu-drawer .menu-tile:nth-of-type(5){background:#cceaff}.menu-drawer .menu-tile:nth-of-type(6){background:#ffe3b9}
+.menu-drawer .menu-tile:hover{transform:translateX(-5px);box-shadow:0 9px 20px #5b13431c}
+.menu-tile>svg{margin-right:auto;transform:rotate(180deg);opacity:.72}
+.menu-tile-emoji{display:grid;place-items:center;width:46px;height:46px;font-size:26px;flex:0 0 46px;background:#fff9;border-radius:15px}
+.menu-drawer-footer{margin-top:auto;text-align:center;color:#722c8b;background:#ffffff9c;border-radius:16px;padding:19px 8px;font-size:12px;font-weight:900;display:flex;justify-content:center;gap:10px}
+.menu-drawer-footer span{color:#fa8b2c}
+/* Footprints: discrete routes, traversed with GSAP one route at a time, opacity exactly zero afterwards */
+.categories,.offers,.benefits,.story-banner{position:relative}
+.paw-route{position:absolute;z-index:4;display:flex;align-items:center;gap:10px;direction:ltr;pointer-events:none;transform:rotate(-26deg)}
+.paw-footprint{width:27px;height:29px;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:scale(.68)}
+.paw-footprint--left{margin-top:23px;transform:rotate(-13deg) scale(.68)}
+.paw-footprint--right{margin-top:-23px;transform:rotate(12deg) scale(.68)}
+.paw-route--cat{color:#fc8eb1}.paw-route--dog{color:#a172ca}.paw-route--rabbit{color:#ffce5b}
+.route-categories{top:85px;left:5%;transform:rotate(22deg)}
+.route-offers{top:-52px;right:10%;transform:rotate(-17deg)}
+.route-story{top:20px;right:13%;transform:rotate(20deg);color:#fff4a5}
+.route-benefits{top:55px;left:5%;transform:rotate(9deg)}
+/* Faster individual prints, with fully clean frames between steps */
+.print{opacity:0;filter:blur(3px);animation:paw-step-smooth 1.30s cubic-bezier(.42,0,.58,1) infinite;animation-delay:calc(var(--i)*.185s)}
+@keyframes paw-step-smooth{0%,7%{opacity:0;filter:blur(3px)}21%,27%{opacity:1;filter:blur(0)}63%,100%{opacity:0;filter:blur(4px)}}
+/* Non-animated state is legible if motion is reduced */
+@media(prefers-reduced-motion:reduce){.float-toy{will-change:auto}.paw-route{display:none}.print{animation:none!important;opacity:0!important}}
+@media(min-width:1500px){.hero-beagle{height:540px;transform:translateY(79px)}.float-toy--rope{left:2%;top:28%}}
+@media(max-width:1050px){.hero-beagle{height:410px;transform:translateY(69px)}.float-toy--rope{left:0;top:35%;width:75px}.float-toy--bone{right:0;top:17%;width:72px}.float-toy--bowl{right:0;bottom:16px;width:87px}}
+@media(max-width:760px){
+  .hero-visual{height:300px;overflow:visible;z-index:5}
+  .hero-beagle{height:334px;max-width:83%;transform:translateY(65px);filter:drop-shadow(0 6px 6px #3a123519)}
+  .hero-wave{height:67px}
+  .hero-main{padding-bottom:84px}
+  .hero-sun{bottom:5px;width:260px;height:260px}
+  .float-toy--rope{left:7%;top:25%;width:67px;height:67px}.float-toy--bone{right:3%;top:17%;width:68px;height:68px}.float-toy--bowl{right:3%;bottom:18px;width:72px;height:64px}
+  .product-photo{height:84%;width:94%}
+  .paw-route{gap:3px;transform:scale(.74) rotate(-17deg)}
+  .route-categories{left:-25px;top:87px}.route-offers{right:-35px;top:-45px}.route-benefits{left:-30px;top:75px}.route-story{right:-25px;top:-30px}
+}
+@media(max-width:420px){
+ .hero-visual{height:263px}
+ .hero-beagle{height:290px;max-width:84%;transform:translateY(58px)}
+ .hero-main{padding-bottom:72px}
+ .hero-wave{height:60px}
+ .hero-sun{bottom:6px;width:220px;height:220px}
+ .float-toy--rope{left:0;top:24%;width:60px}.float-toy--bone{right:1%;top:14%;width:58px}.float-toy--bowl{right:2%;bottom:12px;width:64px}
+ .product-photo{height:86%;width:96%}
+}
+
+/* Anchor the dog by layout rather than transform, so GSAP's y tween cannot undo it. */
+.hero-beagle{top:114px;transform:none}
+@media(min-width:1500px){.hero-beagle{top:128px;transform:none}}
+@media(max-width:1050px){.hero-beagle{top:105px;transform:none}}
+@media(max-width:760px){.hero-beagle{top:72px;transform:none}}
+@media(max-width:420px){.hero-beagle{top:62px;transform:none}}
+/* Ensure photographic packshots stay entirely inside their cards at every breakpoint. */
+.product-picture .product-photo{
+  position:absolute;top:50%;left:50%;right:auto;bottom:auto;
+  width:calc(100% - 26px);height:calc(100% - 24px);max-width:none;
+  transform:translate(-50%,-50%);object-fit:contain;
+}
+.product-card:hover .product-photo{transform:translate(-50%,-50%) scale(1.065) rotate(-2deg)}
+@media(max-width:760px){.product-picture .product-photo{width:calc(100% - 16px);height:calc(100% - 18px)}}
