@@ -18,7 +18,7 @@ export function PetSelector({ products, onShop, onAdd }) {
   return <section id="pet-selector" className="pet-selector-shell" aria-labelledby="selector-title">
     <div className="selector-inner container">
       <div className="selector-main">
-        <span className="selector-eyebrow">✨ فقط برای دوست کوچولوی تو</span>
+        <span className="selector-eyebrow">فقط برای دوست کوچولوی تو</span>
         <h2 id="selector-title">انتخاب مخصوص پت تو</h2>
         <p className="selector-intro">دوستت رو انتخاب کن تا پیشنهادهای مناسب‌تری ببینی.</p>
         <div className="selector-tabs" role="group" aria-label="انتخاب نوع حیوان">
@@ -41,7 +41,7 @@ export function PetSelector({ products, onShop, onAdd }) {
         <div className="selector-blob"/>
         <div className="selector-portrait-frame"/>
         <img src={pet.photo} alt={`تصویر ${pet.name}`} width="460" height="500" loading="lazy"/>
-        <span aria-hidden="true" className="selector-spark one">✳</span><span aria-hidden="true" className="selector-spark two">♡</span>
+        
       </div>
     </div>
   </section>;
