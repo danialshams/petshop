@@ -1,203 +1,116 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const photos = {
- golden: "/images/hero-golden-v3.webp",
- dachshund: "/images/hero-dachshund-v3.webp",
- ginger: "/images/hero-cat-v3.webp",
- puppy: "/images/hero-puppy.webp",
- happy: "/images/hero-golden-v3.webp",
- cat: "/images/hero-cat-v3.webp",
-};
-const products = [
- {id:1,name:"تشویقی خوشمزه سگ",kind:"سگ",price:285000,old:350000,tag:"محبوب",art:"🦴",bg:"#fff0db"},
- {id:2,name:"اسباب‌بازی توپ رنگی",kind:"سگ",price:189000,old:0,tag:"جدید",art:"🎾",bg:"#dff1fc"},
- {id:3,name:"خانه نرم گربه",kind:"گربه",price:980000,old:1180000,tag:"تخفیف",art:"🐱",bg:"#ffedcc"},
- {id:4,name:"ظرف غذای سرامیکی",kind:"گربه",price:420000,old:0,tag:"",art:"🥣",bg:"#f1e8ff"},
- {id:5,name:"گردنبند رنگی پت",kind:"سگ",price:260000,old:320000,tag:"محبوب",art:"🦮",bg:"#dbf5df"},
- {id:6,name:"اسباب‌بازی پرنده",kind:"پرندگان",price:175000,old:0,tag:"جدید",art:"🪶",bg:"#ffebe9"},
- {id:7,name:"تونل بازی گربه",kind:"گربه",price:695000,old:760000,tag:"",art:"🐈",bg:"#e6f4ff"},
- {id:8,name:"لوازم مراقبت ماهی",kind:"آبزیان",price:225000,old:0,tag:"",art:"🐠",bg:"#fff5cf"}
+const categories = [
+  { id: "dog", label: "سگ", subtitle: "رفقای وفادار", image: "/images/beagle.webp", color: "#dbee82" },
+  { id: "cat", label: "گربه", subtitle: "کوچولوهای کنجکاو", image: "/images/cat.webp", color: "#ffb4c8" },
+  { id: "bird", label: "پرندگان", subtitle: "دنیای پررنگ", image: "/images/parrot.webp", color: "#ffe06d" },
+  { id: "rabbit", label: "خرگوش", subtitle: "نرم و دوست‌داشتنی", image: "/images/rabbit.webp", color: "#7edcf5" },
+  { id: "fish", label: "آبزیان", subtitle: "دنیای زیر آب", image: "/images/fish.webp", color: "#6bd9a8" },
 ];
-const categories = [{name:"سگ",emoji:"🐶",bg:"#fae9d1",note:"برای رفیق وفادارت"},{name:"گربه",emoji:"🐱",bg:"#d8f0df",note:"برای کوچولوی بازیگوشت"},{name:"پرندگان",emoji:"🦜",bg:"#dcefff",note:"برای آوازخون خونت"},{name:"آبزیان",emoji:"🐠",bg:"#fce5e2",note:"برای دنیای زیر آب"}];
-const price = n => Number(n).toLocaleString("fa-IR")+" تومان";
-function Icon({name,size=22,fill="none",strokeWidth=1.85}) {
- const paths={
-  search:<><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></>,
-  bag:<><path d="M4 8h16l-1 13H5L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></>,
-  heart:<path d="M20.8 8.5c0 5-8.8 11-8.8 11s-8.8-6-8.8-11a4.7 4.7 0 0 1 8.8-2.1 4.7 4.7 0 0 1 8.8 2.1Z"/>,
-  arrow:<><path d="M4 12h16"/><path d="m13 5 7 7-7 7"/></>,
-  paw:<><ellipse cx="7.1" cy="7" rx="1.5" ry="2"/><ellipse cx="12.2" cy="5.3" rx="1.5" ry="2"/><ellipse cx="17.2" cy="7" rx="1.5" ry="2"/><ellipse cx="20" cy="12.2" rx="1.4" ry="1.8"/><path d="M8 20c-3.8 0-4.6-3.5-2.8-5 1.2-1.2 2.7-1.2 3.7-3 1.2-2.3 4.6-2.3 5.8 0 1 1.8 2.6 1.8 3.7 3 1.8 1.5.9 5-2.8 5-2.2 0-3.5-1.5-5.4-1.5S10.2 20 8 20Z"/></>,
-  menu:<><path d="M4 7h16M4 12h16M4 17h16"/></>,
-  close:<path d="m5 5 14 14M19 5 5 19"/>,
-  plus:<path d="M12 4v16M4 12h16"/>,
-  minus:<path d="M4 12h16"/>,
-  truck:<><path d="M2 7h12v10H2zM14 10h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></>,
-  star:<path d="m12 2 3.1 6.4 7 1-5.1 4.9 1.2 7-6.2-3.3-6.2 3.3 1.2-7L2 9.4l7-1L12 2Z"/>,
-  shield:<><path d="M12 2 4 5v6c0 5 3.2 8.5 8 11 4.8-2.5 8-6 8-11V5l-8-3Z"/><path d="m8.5 12 2.3 2.3 4.7-5"/></>,
-  box:<><path d="m3 7 9-4 9 4v10l-9 4-9-4V7Z"/><path d="M3 7l9 4 9-4M12 11v10"/></>
- };
- return <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill={fill} stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round">{paths[name]||paths.paw}</svg>;
+const products = [
+  { id: 1, title: "غذای خشک مخصوص سگ", cat: "dog", price: 795000, old: 920000, bg: "#e9defc", kind: "food", tone: "orange", emoji: "🐶", tag: "پرفروش" },
+  { id: 2, title: "تشویقی خوشمزه گربه", cat: "cat", price: 245000, old: 0, bg: "#ffe4ee", kind: "food", tone: "pink", emoji: "🐱", tag: "جدید" },
+  { id: 3, title: "توپ بازی رنگی", cat: "dog", price: 165000, old: 210000, bg: "#e5f7da", kind: "ball", tone: "blue", emoji: "", tag: "تخفیف" },
+  { id: 4, title: "جای خواب نرم پت", cat: "cat", price: 985000, old: 0, bg: "#e8eeff", kind: "bed", tone: "purple", emoji: "", tag: "محبوب" },
+  { id: 5, title: "ظرف غذای بامزه", cat: "dog", price: 319000, old: 0, bg: "#fff0cd", kind: "bowl", tone: "orange", emoji: "", tag: "" },
+  { id: 6, title: "اسباب‌بازی جویدنی", cat: "dog", price: 180000, old: 245000, bg: "#fce8d9", kind: "bone", tone: "purple", emoji: "", tag: "ویژه" },
+  { id: 7, title: "اسباب‌بازی پرنده", cat: "bird", price: 155000, old: 0, bg: "#dff6fa", kind: "ball", tone: "pink", emoji: "", tag: "جدید" },
+  { id: 8, title: "غذای آبزیان", cat: "fish", price: 125000, old: 0, bg: "#e1f3eb", kind: "food", tone: "green", emoji: "🐠", tag: "" },
+];
+const money = (number) => number.toLocaleString("fa-IR") + " تومان";
+
+function Icon({ name, size = 22, fill = "none" }) {
+  const paths = {
+    paw: <><ellipse cx="5.5" cy="7" rx="1.5" ry="2"/><ellipse cx="10.5" cy="4.5" rx="1.5" ry="2"/><ellipse cx="16" cy="4.5" rx="1.5" ry="2"/><ellipse cx="20.1" cy="8" rx="1.5" ry="2"/><path d="M12 11c-2 0-3 2.3-4.8 3.4-2.8 1.7-2.4 6 1 6.5 1.4.2 2.1-.9 3.8-.9 1.9 0 2.5 1.2 4.2.9 3.4-.5 3.8-4.8 1-6.5C15.3 13.3 14 11 12 11Z"/></>,
+    search: <><circle cx="10.6" cy="10.6" r="6.5"/><path d="m16 16 5 5"/></>,
+    cart: <><path d="M3 4h2l2.4 11.8h11L21 8H6"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></>,
+    heart: <path d="M20.8 8.4C20.8 14 12 20 12 20S3.2 14 3.2 8.4C3.2 4.1 9 2.6 12 6.5c3-3.9 8.8-2.4 8.8 1.9Z"/>,
+    arrow: <><path d="M4 12h16"/><path d="m13 5 7 7-7 7"/></>,
+    plus: <path d="M12 5v14M5 12h14"/>,
+    minus: <path d="M5 12h14"/>,
+    close: <path d="M5 5 19 19M19 5 5 19"/>,
+    truck: <><path d="M2 7h12v10H2zM14 10h4l4 4v3h-8"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></>,
+    shield: <><path d="M12 2 4 5v6c0 5 3.2 8.5 8 11 4.8-2.5 8-6 8-11V5l-8-3Z"/><path d="m8.5 12 2.3 2.3 4.7-5"/></>,
+    headphones: <><path d="M4 13V11a8 8 0 0 1 16 0v2"/><rect x="2" y="12" width="5" height="8" rx="2"/><rect x="17" y="12" width="5" height="8" rx="2"/></>,
+    box: <><path d="m3 7 9-4 9 4v10l-9 4-9-4V7Z"/><path d="M3 7l9 4 9-4M12 11v10"/></>,
+    check: <path d="m5 12 5 5L20 7"/>,
+    chevron: <path d="m7 9 5 5 5-5"/>,
+  };
+  return <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" fill={fill} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">{paths[name] || paths.paw}</svg>;
 }
-function BarkingDog() {
- return <svg viewBox="0 0 230 205" role="img" aria-label="سگ بانمک در حال پارس کردن" className="loader-dog">
- <path d="M73 67 45 35 28 76Q46 89 66 84M158 65l30-32 18 45-41 10" fill="#ffb71b" stroke="#271510" strokeWidth="6" strokeLinejoin="round"/>
- <path d="M57 84c-4-39 33-64 61-61 34-2 65 25 64 63 16 18 22 50 11 70-17 35-132 42-158 2-12-19-5-54 22-74Z" fill="#fff" stroke="#271510" strokeWidth="6"/>
- <path d="M57 78c9-33 38-26 44-16 3 8-2 30-12 32H61Z" fill="#ffb71b" stroke="#271510" strokeWidth="5"/>
- <circle cx="88" cy="79" r="10" fill="#23191b"/><circle cx="138" cy="79" r="10" fill="#23191b"/>
- <ellipse cx="115" cy="111" rx="40" ry="27" fill="#4b1014"/>
- <path className="dog-jaw" d="M91 137q24 28 47 0v12q-24 27-47 0Z" fill="#9d2931"/>
- <path d="M68 150q13 30 42 7M160 151q-16 31-43 7" fill="none" stroke="#dedede" strokeWidth="6" strokeLinecap="round"/>
- <path d="M73 180q38 25 83 0" stroke="#222" strokeWidth="15" fill="none" strokeLinecap="round"/>
- <circle cx="115" cy="194" r="8" fill="#f8a323"/>
- </svg>;
+function ProductArt({ product }) {
+  return <div className={`art-${product.kind} art-${product.tone}`} aria-hidden="true">
+    {product.kind === "food" && <div className="pack"><span className="pack-paw"><Icon name="paw" size={27} fill="currentColor"/></span><span className="pack-pet">{product.emoji}</span><span className="pack-brand">PET FOOD</span><span className="pack-stripe"/></div>}
+    {product.kind === "ball" && <div className="art-ball-shape"><i/><b/><span/></div>}
+    {product.kind === "bed" && <div className="art-bed-shape"><span/><i/></div>}
+    {product.kind === "bowl" && <div className="art-bowl-shape"><div className="kibble">••••••••••••</div><Icon name="paw" size={33} fill="currentColor"/></div>}
+    {product.kind === "bone" && <div className="art-bone-shape"><span>✦</span></div>}
+  </div>;
 }
-function Loader({onDone}) {
- const [step,setStep]=useState(0);
- useEffect(()=>{
-   let active=true;
-   let assetsReady=false;
-   let fullLoopPlayed=false;
-   let completed=false;
-   const timers=[];
-   const finish=()=>{
-     if(active && assetsReady && fullLoopPlayed && !completed){
-       completed=true;
-       onDone();
-     }
-   };
-   // Exactly the supplied dog animation: a 6-second transparent WebP loop.
-   const dog=new window.Image();
-   const imageSources=[
-     "/images/hero-ledged-desktop.webp",
-     "/images/hero-ledged-mobile.webp",
-     "/images/hero-puppy.webp",
-   ];
-   const prefetch=(src)=>new Promise(resolve=>{
-     const img=new window.Image();
-     img.onload=resolve; img.onerror=resolve;
-     img.src=src;
-   });
-   Promise.all(imageSources.map(prefetch)).then(()=>{
-     assetsReady=true;
-     finish();
-   });
-   const markLoopFinished=()=>{
-     fullLoopPlayed=true;
-     finish();
-   };
-   dog.onload=()=>{
-     // The animation uses 75 frames at 80ms; never reveal the page before a full loop.
-     timers.push(setTimeout(markLoopFinished,6050));
-   };
-   dog.onerror=()=>{
-     // Fail gracefully, without trapping the customer on the loading screen.
-     timers.push(setTimeout(markLoopFinished,6050));
-   };
-   dog.src="/images/dog-barking-transparent.webp";
-   const progress=setInterval(()=>{
-     if(active)setStep(prev=>(prev+1)%6);
-   },430);
-   // Handle genuinely missing media or stalled image requests.
-   const fallback=setTimeout(()=>{
-     assetsReady=true;
-     fullLoopPlayed=true;
-     finish();
-   },12000);
-   return ()=>{
-     active=false;
-     clearInterval(progress);
-     clearTimeout(fallback);
-     timers.forEach(clearTimeout);
-   };
- },[onDone]);
- return <div className="loading-screen" aria-live="polite">
-   <div className="loading-content">
-     <img className="loader-dog" src="/images/dog-barking-transparent.webp" alt="سگ بامزه در حال پارس کردن" width="320" height="320" />
-     <span className="loading-title">داریم برای خوشحالی کوچولوت آماده می‌شیم!</span>
-     <div className="paw-trail" dir="ltr" aria-label="در حال بارگذاری">
-       {Array.from({length:6},(_,i)=>{
-         const age=(step-i+6)%6;
-         const opacity=age===0?1:age===1?.72:age===2?.45:age===3?.25:.09;
-         return <span key={i} className={"paw-step "+(i%2?"down":"up")} style={{opacity}}>
-           <Icon name="paw" size={27} fill="currentColor" strokeWidth={1.1}/>
-         </span>;
-       })}
-     </div>
-   </div>
- </div>;
+function Loader({ done }) {
+  useEffect(() => {
+    let active = true;
+    const start = Date.now();
+    const media = ["/images/beagle.webp", "/images/cat.webp", "/images/parrot.webp", "/images/rabbit.webp", "/images/fish.webp", "/images/retriever.webp", "/images/dog-barking-transparent.webp"];
+    let assetsReady = false;
+    let oneLoop = false;
+    const complete = () => { if (active && assetsReady && oneLoop) done(); };
+    Promise.all(media.map(src => new Promise(resolve => {
+      const img = new Image(); img.onload = resolve; img.onerror = resolve; img.src = src;
+    }))).then(() => { assetsReady = true; complete(); });
+    const timer = setTimeout(() => { oneLoop = true; complete(); }, 6100);
+    const backup = setTimeout(() => { assetsReady = true; oneLoop = true; complete(); }, 10000);
+    return () => { active = false; clearTimeout(timer); clearTimeout(backup); };
+  }, [done]);
+  return <div className="loader" role="status" aria-label="در حال آماده‌سازی فروشگاه"><div className="loader-body"><img width="224" height="224" src="/images/dog-barking-transparent.webp" alt="سگ بانمک در حال پارس"/><p>یه عالمه شادی تو راهه!</p><div className="paw-track" dir="ltr">{Array.from({length: 6}, (_,i) => <span className={`print ${i%2===0?"odd":"even"}`} key={i} style={{"--i":i}}><Icon name="paw" size={24} fill="currentColor"/></span>)}</div></div></div>;
 }
-function CatTree(){return <div className="cat-tree" aria-label="خانه چند طبقه گربه"><div className="tree-roof"/><div className="tree-pole pole-one"/><div className="tree-pole pole-two"/><div className="tree-middle"/><div className="tree-house"><span/></div><div className="tree-floor"/></div>}
-export default function Home(){
- const [loading,setLoading]=useState(true);
- const [menu,setMenu]=useState(false);
- const [cartOpen,setCartOpen]=useState(false);
- const [cart,setCart]=useState({});
- const [filter,setFilter]=useState("همه");
- const [searchOpen,setSearchOpen]=useState(false);
- const [search,setSearch]=useState("");
- const [liked,setLiked]=useState([]);
- const finish=useCallback(()=>setLoading(false),[]);
- const cartCount=Object.values(cart).reduce((a,b)=>a+b,0);
- const cartPrice=products.reduce((a,p)=>a+(cart[p.id]||0)*p.price,0);
- const visible=useMemo(()=>products.filter(p=>(filter==="همه"||p.kind===filter)&&(!search||p.name.includes(search))),[filter,search]);
- const add=id=>{setCart(c=>({...c,[id]:(c[id]||0)+1}));setCartOpen(true)};
- const change=(id,delta)=>setCart(c=>{const next={...c};next[id]=Math.max(0,(next[id]||0)+delta);if(!next[id])delete next[id];return next});
- const toShop=cat=>{setFilter(cat||"همه");document.getElementById("shop")?.scrollIntoView({behavior:"smooth"})};
- useEffect(()=>{document.body.style.overflow=(cartOpen||menu)?"hidden":"";return()=>{document.body.style.overflow=""}},[cartOpen,menu]);
- return <>
- {loading&&<Loader onDone={finish}/>}
- <div className="site-frame">
- <section id="home" className="hero-shell">
- <header className="topbar">
- <button className="mobile-paw-menu" type="button" title="منو" aria-label="بازکردن منو" aria-expanded={menu} onClick={()=>setMenu(true)}><Icon name="menu" size={25} strokeWidth={2}/></button>
- <a className="brand" href="#home" aria-label="خانه کوزی پاوز"><span className="brand-icon"><Icon name="paw" size={29} fill="currentColor"/></span><span>کوزی<span>پاوز</span></span></a>
- <nav className="nav-links" aria-label="فهرست اصلی"><a href="#home" className="active">خانه</a><a href="#shop">فروشگاه</a><a href="#categories">دسته‌بندی‌ها</a><a href="#benefits">ارسال و پرداخت</a><a href="#about">درباره ما</a></nav>
- <div className="top-actions"><button type="button" title="جست‌وجو" aria-label="جست‌وجو" onClick={()=>{setSearchOpen(s=>!s);toShop("همه")}}><Icon name="search"/></button><button type="button" title="علاقه‌مندی‌ها" aria-label="علاقه‌مندی‌ها" onClick={()=>document.getElementById("shop")?.scrollIntoView({behavior:"smooth"})}><Icon name="heart" fill={liked.length?"#ff772b":"none"}/></button><button type="button" title="سبد خرید" aria-label="سبد خرید" onClick={()=>setCartOpen(true)} className="cart-top"><Icon name="bag"/>{cartCount>0&&<span className="count">{cartCount.toLocaleString("fa-IR")}</span>}</button></div>
- </header>
- <div className="hero-stage">
-   <div className="hero-wordmark"><h1>هرچی که <span>پتت عاشقشه!</span></h1><p>برای بهترین رفیق دنیا، بهترین‌ها رو انتخاب کن.</p></div>
-   <div className="hero-feature"><CatTree/><div className="feature-details"><span>خانه گربه کوزی</span><strong>۹۸۰ هزار تومان</strong></div><button aria-label="مشاهده خانه گربه" onClick={()=>toShop("گربه")} className="feature-arrow"><Icon name="arrow" size={19}/></button></div>
-   <div className="side-review"><div className="side-review-photo"><img src={photos.puppy} alt="سگ کوچک" loading="eager"/></div><p>ویدیوهای بامزه و نظر صاحبان پت‌ها</p><span>دیدن تجربه‌ها <Icon name="arrow" size={13}/></span></div>
- </div>
- <div className="hero-scene" aria-label="سه حیوان با پنجه‌هایشان روی لبه کارت‌های فروشگاه">
-   <picture className="hero-scene-picture">
-     <source media="(max-width: 760px)" srcSet="/images/hero-ledged-mobile.webp" />
-     <img className="hero-scene-image" src="/images/hero-ledged-desktop.webp" alt="سگ داشهوند، گلدن رتریور خندان و گربه نارنجی، با پنجه‌هایشان بر لبه سه سکشن سبز" width="1600" height="845" fetchPriority="high" />
-   </picture>
-   <div className="hero-scene-captions">
-     <div className="hero-scene-caption hero-scene-caption--left">
-       <strong className="hero-scene-stat"><span className="scene-star" aria-hidden="true">★</span> ۴.۶</strong>
-       <p>از نظر صاحبان حیوانات دوست‌داشتنی</p>
-     </div>
-     <div className="hero-scene-caption hero-scene-caption--middle">
-       <h2>بهترین‌ها برای<br/>دوست کوچولوت</h2>
-       <button type="button" className="pill-button" onClick={()=>toShop("همه")}>مشاهده محصولات <span><Icon name="arrow" size={17}/></span></button>
-     </div>
-     <div className="hero-scene-caption hero-scene-caption--right">
-       <strong className="hero-scene-stat">۹۸ هزار <span className="scene-paws" aria-hidden="true">🐾</span></strong>
-       <p>همراه خوشحال و رفیق‌های پشمالوشون</p>
-     </div>
-   </div>
- </div>
- </section>
- <div className="ticker"><div>🐾 با عشق برای کوچولوها&nbsp;&nbsp; ✦ &nbsp;&nbsp;غذا و تشویقی&nbsp;&nbsp; ✦ &nbsp;&nbsp;اسباب‌بازی و سرگرمی&nbsp;&nbsp; ✦ &nbsp;&nbsp;برای هر پنجه یک خوشحالی&nbsp;&nbsp; ✦ &nbsp;&nbsp;خرید راحت و دوست‌داشتنی&nbsp;&nbsp; ✦ &nbsp;&nbsp;</div></div>
- <main>
- <section id="categories" className="section categories-section"><div className="section-heading"><div><span className="eyebrow">برای هر رفیق، یه دنیای قشنگ</span><h2>کوچولوی تو کدومه؟</h2></div><p>هر چیزی که برای خوشحال‌کردنش نیاز داری، همین‌جاست.</p></div><div className="category-grid">{categories.map(c=><button key={c.name} className="category-card" style={{background:c.bg}} onClick={()=>toShop(c.name)}><span className="category-emoji">{c.emoji}</span><span className="category-label"><strong>{c.name}</strong><small>{c.note}</small></span><span className="category-arrow"><Icon name="arrow" size={19}/></span></button>)}</div></section>
- <section id="shop" className="section products-section"><div className="section-heading"><div><span className="eyebrow">پرطرفدارهای فروشگاه</span><h2>از اینا نمی‌شه گذشت!</h2></div><p>محصول‌های دوست‌داشتنی برای روزهای شیرین‌تر.</p></div>
- <div className="shop-controls"><div className="filter-row">{["همه","سگ","گربه","پرندگان","آبزیان"].map(x=><button key={x} onClick={()=>setFilter(x)} className={filter===x?"selected":""}>{x}</button>)}</div>{searchOpen&&<label className="shop-search"><Icon name="search" size={18}/><input autoFocus value={search} onChange={e=>setSearch(e.target.value)} placeholder="دنبال چی می‌گردی؟" aria-label="جست‌وجوی محصول"/></label>}</div>
- <div className="products-grid">{visible.map(p=><article key={p.id} className="product-card"><div className="product-visual" style={{background:p.bg}}>{p.tag&&<span className="product-tag">{p.tag}</span>}<button className={"like-btn "+(liked.includes(p.id)?"on":"")} aria-label="افزودن به علاقه‌مندی‌ها" onClick={()=>setLiked(l=>l.includes(p.id)?l.filter(id=>id!==p.id):[...l,p.id])}><Icon name="heart" size={19} fill={liked.includes(p.id)?"#ff7136":"none"}/></button><span className="product-art" role="img" aria-label={p.name}>{p.art}</span><button className="quick-add" onClick={()=>add(p.id)} aria-label={"افزودن "+p.name+" به سبد"}><Icon name="plus" size={21}/></button></div><div className="product-info"><span className="product-kind">مخصوص {p.kind}</span><h3>{p.name}</h3><div className="price-line"><strong>{price(p.price)}</strong>{p.old>0&&<del>{price(p.old)}</del>}</div></div></article>)}</div>
- {visible.length===0&&<div className="empty-results">محصولی با این جست‌وجو پیدا نشد. نام دیگری امتحان کن.</div>}
- <div className="shop-note">این نسخه نمایشی است؛ محصولات و قیمت‌ها نمونه هستند و خرید واقعی انجام نمی‌شود.</div>
- </section>
- <section className="promo"><div className="promo-copy"><span>یه عالمه شادیِ تازه!</span><h2>بازی بیشتر،<br/>دُم تکون‌دادن بیشتر!</h2><p>از توپ‌های رنگی تا تشویقی‌های خوشمزه؛ یه هدیه کوچولو برای بهترین دوستت.</p><button className="dark-button" onClick={()=>toShop("سگ")}>بریم خرید <Icon name="arrow" size={19}/></button></div><div className="promo-photo"><img src={photos.happy} alt="سگ خوشحال و بازیگوش" loading="lazy"/></div><span className="promo-doodle">✳</span></section>
- <section id="benefits" className="section benefits"><div className="section-heading"><div><span className="eyebrow">خیالت راحت، پتت خوشحال</span><h2>چرا کوزی‌پاوز؟</h2></div></div><div className="benefit-grid"><div><span className="benefit-icon"><Icon name="truck" size={29}/></span><h3>ارسال آسان</h3><p>سفارش‌هات با هماهنگی و بسته‌بندی مناسب آماده می‌شن.</p></div><div><span className="benefit-icon"><Icon name="heart" size={29}/></span><h3>انتخاب با عشق</h3><p>محصولاتی که برای راحتی و شادی دوست کوچولوت انتخاب می‌شن.</p></div><div><span className="benefit-icon"><Icon name="shield" size={29}/></span><h3>خرید مطمئن</h3><p>مسیر خرید ساده و مشخص؛ اطلاعات سفارش همیشه روشنه.</p></div><div><span className="benefit-icon"><Icon name="box" size={29}/></span><h3>تنوع محصولات</h3><p>از خوراکی تا سرگرمی، همه چیز در یک فروشگاه دوست‌داشتنی.</p></div></div></section>
- <section className="story" id="about"><div className="story-photo"><img src={photos.cat} alt="گربه زیبای خانگی" loading="lazy"/></div><div className="story-copy"><span className="eyebrow">قصه ما از عشق به حیوانات شروع شد</span><h2>چون اون‌ها فقط «پت» نیستن؛ خانواده‌ان.</h2><p>کوزی‌پاوز قراره خرید وسایل کوچولوهای دوست‌داشتنیمون رو ساده‌تر، بانمک‌تر و پر از حس خوب کنه. این صفحه فعلاً یک دموی طراحی فروشگاهه.</p><button className="outline-button" onClick={()=>toShop("همه")}>ببین چی داریم <Icon name="arrow" size={18}/></button></div></section>
- </main>
- <footer className="footer"><div className="footer-head"><div><a href="#home" className="brand brand-footer"><span className="brand-icon"><Icon name="paw" size={27} fill="currentColor"/></span><span>کوزی<span>پاوز</span></span></a><p>دنیای رنگیِ دوست‌های پشمالو و کوچولو.</p></div><a href="#home" className="footer-back">برگردیم بالا ↑</a></div><div className="footer-bottom"><span>© کوزی‌پاوز — نسخه نمایشی فروشگاه</span><span>طراحی با عشق به حیوانات 🐾</span></div></footer>
- </div>
- {menu&&<div className="drawer-backdrop menu-backdrop" onMouseDown={()=>setMenu(false)}><div className="menu-panel" onMouseDown={e=>e.stopPropagation()}><div className="drawer-head"><strong>منوی فروشگاه</strong><button onClick={()=>setMenu(false)} aria-label="بستن"><Icon name="close"/></button></div>{[{title:"خانه",href:"#home"},{title:"فروشگاه",href:"#shop"},{title:"دسته‌بندی‌ها",href:"#categories"},{title:"ارسال و پرداخت",href:"#benefits"},{title:"درباره ما",href:"#about"}].map(x=><a key={x.href} href={x.href} onClick={()=>setMenu(false)}>{x.title}</a>)}</div></div>}
- {cartOpen&&<div className="drawer-backdrop" onMouseDown={()=>setCartOpen(false)}><aside className="cart-drawer" aria-label="سبد خرید" onMouseDown={e=>e.stopPropagation()}><div className="drawer-head"><strong>سبد خرید <span>({cartCount.toLocaleString("fa-IR")})</span></strong><button onClick={()=>setCartOpen(false)} aria-label="بستن سبد خرید"><Icon name="close"/></button></div>{cartCount===0?<div className="empty-cart"><Icon name="bag" size={56}/><h3>اینجا هنوز خالیه!</h3><p>یه چیز خوشمزه برای رفیقت پیدا کن.</p><button className="dark-button" onClick={()=>{setCartOpen(false);toShop("همه")}}>بریم فروشگاه</button></div>:<><div className="cart-items">{products.filter(p=>cart[p.id]).map(p=><div className="cart-item" key={p.id}><span className="cart-item-icon" style={{background:p.bg}}>{p.art}</span><div className="cart-item-info"><h4>{p.name}</h4><span>{price(p.price)}</span><div className="quantity"><button onClick={()=>change(p.id,-1)} aria-label="کم‌کردن"><Icon name="minus" size={16}/></button><b>{cart[p.id].toLocaleString("fa-IR")}</b><button onClick={()=>change(p.id,1)} aria-label="افزودن"><Icon name="plus" size={16}/></button></div></div></div>)}</div><div className="cart-total"><span>جمع سفارش</span><strong>{price(cartPrice)}</strong><button className="checkout-demo" disabled>پرداخت در نسخه نمایشی غیرفعال است</button></div></>}</aside></div>}
- </>;
+export default function Home() {
+  const [loading,setLoading] = useState(true);
+  const [menu,setMenu] = useState(false);
+  const [cartOpen,setCartOpen] = useState(false);
+  const [liked,setLiked] = useState([]);
+  const [cart,setCart] = useState({});
+  const [selected,setSelected] = useState("all");
+  const [query,setQuery] = useState("");
+  const [searchOpen,setSearchOpen] = useState(false);
+  const [message,setMessage] = useState("");
+  const totalCount = Object.values(cart).reduce((a,b) => a+b,0);
+  const total = products.reduce((a,p) => a+p.price*(cart[p.id]||0),0);
+  const filtered = useMemo(() => products.filter(p => (selected === "all" || selected === p.cat) && p.title.includes(query)), [selected,query]);
+  const navigate = (id,cat) => { if(cat) setSelected(cat); setMenu(false); document.getElementById(id)?.scrollIntoView({behavior:"smooth"}); };
+  const add = (id) => {setCart(old=>({...old,[id]:(old[id]||0)+1}));setCartOpen(true);};
+  const change = (id,n) => setCart(old=>{const next = {...old}; next[id] = Math.max(0,(next[id]||0)+n);if(!next[id])delete next[id];return next;});
+  useEffect(()=>{document.body.style.overflow = menu || cartOpen ? "hidden" : "";return()=>{document.body.style.overflow="";}},[menu,cartOpen]);
+  return <>
+    {loading && <Loader done={()=>setLoading(false)}/>}
+    <div className="website">
+      <div className="announcement"><span>🐾 تا ۳۰٪ تخفیف برای محصولات منتخب</span><span>ارسال رایگان سفارش‌های بالای ۲ میلیون تومان 🚚</span></div>
+      <section className="hero-wrap" id="home">
+        <header className="header container">
+          <button className="mobile-menu" aria-label="باز کردن منو" aria-expanded={menu} onClick={()=>setMenu(true)}><Icon name="paw" size={25} fill="currentColor"/></button>
+          <a href="#home" className="logo"><span className="logo-mark"><Icon name="paw" size={32} fill="currentColor"/></span><span>پت‌فود <small>PET FOOD</small></span></a>
+          <nav className="navigation" aria-label="منوی اصلی"><a className="nav-active" href="#home">خانه</a><a href="#shop">فروشگاه</a><a href="#categories">دسته‌بندی‌ها</a><a href="#offers">پیشنهاد ویژه</a><a href="#about">درباره ما</a></nav>
+          <div className="header-actions"><button aria-label="جست‌وجو" onClick={()=>{setSearchOpen(true);navigate("shop")}}><Icon name="search" size={21}/></button><button aria-label="علاقه‌مندی‌ها" onClick={()=>{setSelected("all");navigate("shop")}}><Icon name="heart" size={22} fill={liked.length?"#ff9c1b":"none"}/></button><button className="cart-trigger" aria-label="سبد خرید" onClick={()=>setCartOpen(true)}><Icon name="cart" size={22}/>{totalCount>0&&<b>{totalCount.toLocaleString("fa-IR")}</b>}</button></div>
+        </header>
+        <div className="hero-main container">
+          <div className="hero-copy"><span className="eyebrow hero-offer">✨ تا ۳۰٪ تخفیف محصولات منتخب</span><h1>هر چیزی که <br/><span>رفیق کوچولوت</span><br/>عاشقشه!</h1><p>از غذای خوشمزه تا اسباب‌بازی‌های رنگی؛ یه دنیای پر از عشق برای دوست‌های پشمالوت.</p><button className="btn btn-orange" onClick={()=>navigate("shop","all")}>بریم خرید! <span><Icon name="arrow" size={19}/></span></button><div className="hero-social"><span className="avatar-stack"><img src="/images/cat.webp" alt=""/><img src="/images/rabbit.webp" alt=""/><img src="/images/retriever.webp" alt=""/></span><span><b>رفقای خوشحال</b><small>برای هر پنجه، یه لبخند</small></span></div></div>
+          <div className="hero-visual"><div className="hero-sun"/><span className="hero-spark one">✳</span><span className="hero-spark two">✦</span><span className="hero-loop">♡</span><img className="hero-beagle" src="/images/beagle.webp" alt="سگ بیگل خندان در صفحه اصلی پت‌شاپ" fetchPriority="high"/><span className="hero-paw"><Icon name="paw" size={45} fill="currentColor"/></span></div>
+        </div>
+        <svg className="hero-wave" viewBox="0 0 1440 114" preserveAspectRatio="none" aria-hidden="true"><path fill="#ff9f1c" d="M0 52 C250 108 390 20 700 42 C1010 67 1170 93 1440 9 L1440 114 L0 114Z"/><path fill="#fff" d="M0 68 C260 116 430 36 710 57 C1020 84 1240 101 1440 28 L1440 114 L0 114Z"/></svg>
+      </section>
+      <main>
+        <section id="categories" className="categories container"><div className="section-title center"><span className="kicker">انتخاب برای دوستای کوچولوت</span><h2>خرید بر اساس دسته‌بندی</h2><p>هر کدومشون یه دنیا سلیقه و نیاز دارن!</p></div><div className="category-list">{categories.map((c,index)=><button onClick={()=>navigate("shop",c.id)} className="category" key={c.id}><span className="category-picture" style={{background:c.color}}><img src={c.image} alt={c.label} loading="lazy"/>{index===0&&<span className="category-mark">✳</span>}</span><strong>{c.label}</strong><small>{c.subtitle}</small></button>)}</div></section>
+        <section id="offers" className="offers container"><article className="offer blue"><div className="offer-copy"><span>برای بازی‌های پرهیجان!</span><h3>توی این خونه<br/>حوصله‌مون سر نمی‌ره!</h3><button onClick={()=>navigate("shop","dog")}>بزن بریم <Icon name="arrow" size={18}/></button></div><img className="offer-animal offer-cat" src="/images/cat.webp" alt="گربه روی بنر پیشنهاد ویژه" loading="lazy"/><span className="offer-deco">✺</span></article><article className="offer green"><div className="offer-copy"><span>خرید به‌صرفه‌تر</span><h3>تا ۲۵٪ تخفیف<br/>روی خوشمزه‌ها!</h3><button onClick={()=>navigate("shop","all")}>دیدن پیشنهادها <Icon name="arrow" size={18}/></button></div><img className="offer-animal offer-retriever" src="/images/retriever.webp" alt="توله گلدن رتریور" loading="lazy"/><span className="offer-deco">✷</span></article></section>
+        <section id="shop" className="shop container"><div className="section-title shop-title"><div><span className="kicker">دست‌چین‌شده با عشق</span><h2>محصولات دوست‌داشتنی</h2></div><p>رفیقت لایق بهترین‌هاست!</p></div><div className="shop-tools"><div className="filters">{[{id:"all",label:"همه"},...categories.map(c=>({id:c.id,label:c.label}))].map(c=><button key={c.id} className={selected===c.id?"active":""} onClick={()=>setSelected(c.id)}>{c.label}</button>)}</div><div className="search-field"><Icon name="search" size={18}/><input aria-label="جست‌وجوی محصولات" placeholder="دنبال چی می‌گردی؟" value={query} onChange={e=>setQuery(e.target.value)}/></div></div><div className="product-grid">{filtered.map(p=><article className="product-card" key={p.id}><div className="product-picture" style={{background:p.bg}}>{p.tag&&<span className="product-badge">{p.tag}</span>}<button className={`favorite ${liked.includes(p.id)?"is-liked":""}`} onClick={()=>setLiked(prev=>prev.includes(p.id)?prev.filter(x=>x!==p.id):[...prev,p.id])} aria-label="افزودن به علاقه‌مندی‌ها"><Icon name="heart" size={19} fill={liked.includes(p.id)?"currentColor":"none"}/></button><ProductArt product={p}/></div><div className="product-meta"><small>{categories.find(c=>c.id===p.cat)?.label||"پت"}</small><h3>{p.title}</h3><div className="price"><b>{money(p.price)}</b>{p.old>0&&<s>{money(p.old)}</s>}</div><button className="add-cart" onClick={()=>add(p.id)} aria-label={`افزودن ${p.title} به سبد`}><Icon name="plus" size={19}/></button></div></article>)}</div>{!filtered.length&&<div className="notfound">چیزی پیدا نشد؛ اسم یا دسته دیگه‌ای امتحان کن.</div>}<p className="demo-note">این فروشگاه نسخه نمایشی است. محصولات، قیمت‌ها و سبد خرید جهت نمایش طراحی هستند.</p></section>
+        <section className="story-banner"><div className="story-inner container"><div className="story-text"><span>🐾 یه عالمه عشق، یه عالمه بازی</span><h2>وقتشه دم‌ها<br/>تندتر تکون بخورن!</h2><p>یه سرگرمی کوچیک می‌تونه روز دوستت رو خیلی قشنگ‌تر کنه.</p><button className="btn btn-orange" onClick={()=>navigate("shop","dog")}>کشف دنیای بازی <span><Icon name="arrow" size={18}/></span></button></div><div className="story-art"><div className="story-disc"/><img src="/images/retriever.webp" alt="توله سگ شاد در کمپین" loading="lazy"/><span>♡</span></div></div></section>
+        <section className="benefits container" id="about"><div className="section-title center"><span className="kicker">خرید راحت و بی‌دردسر</span><h2>کنار تو و کوچولوت هستیم</h2></div><div className="benefit-grid">{[{icon:"truck",title:"ارسال راحت",desc:"سفارش‌ها با بسته‌بندی مناسب"},{icon:"shield",title:"انتخاب مطمئن",desc:"اطلاعات شفاف و محصولات باکیفیت"},{icon:"headphones",title:"همراهت هستیم",desc:"راهنمایی در مسیر انتخاب"},{icon:"heart",title:"با عشق برای پت‌ها",desc:"همه چیز برای خوشحالی دوستت"}].map(x=><div className="benefit" key={x.title}><span><Icon name={x.icon} size={30}/></span><strong>{x.title}</strong><p>{x.desc}</p></div>)}</div></section>
+        <section className="newsletter container"><div className="newsletter-copy"><span>نامه‌های خوشحال‌کننده 🐾</span><h2>خبر تخفیف‌ها رو از دست نده!</h2><p>از پیشنهادهای ویژه و تازه‌های فروشگاه باخبر شو.</p><form onSubmit={e=>{e.preventDefault();setMessage("این بخش در نسخه نمایشی فعال نیست.")}}><input type="email" aria-label="ایمیل" placeholder="آدرس ایمیلت رو وارد کن" required/><button type="submit">ثبت ایمیل <Icon name="arrow" size={16}/></button></form>{message&&<small role="status">{message}</small>}</div><div className="newsletter-image"><img src="/images/rabbit.webp" alt="خرگوش بانمک" loading="lazy"/></div></section>
+      </main>
+      <footer className="footer"><div className="footer-inner container"><div className="footer-brand"><div className="logo"><span className="logo-mark"><Icon name="paw" size={32} fill="currentColor"/></span><span>پت‌فود <small>PET FOOD</small></span></div><p>یه دنیای رنگی و دوست‌داشتنی برای تمام رفیق‌های کوچولو.</p></div><div className="footer-column"><b>دسترسی سریع</b><a href="#home">خانه</a><a href="#shop">فروشگاه</a><a href="#categories">دسته‌بندی‌ها</a></div><div className="footer-column"><b>فروشگاه</b><a href="#shop">محصولات محبوب</a><a href="#offers">پیشنهادهای ویژه</a><a href="#about">درباره ما</a></div><div className="footer-column"><b>درباره پت‌فود</b><p>دموی فروشگاهی فارسی و راست‌چین، با طراحی اختصاصی و تصاویر محلی.</p></div></div><div className="copyright container">© پت‌فود — نسخه نمایشی طراحی فروشگاه <span>ساخته شده با عشق به حیوانات ♥</span></div></footer>
+    </div>
+    {menu&&<div className="overlay" onMouseDown={()=>setMenu(false)}><aside className="menu-drawer" aria-label="منوی موبایل" onMouseDown={e=>e.stopPropagation()}><div className="drawer-head"><strong>منوی پت‌فود</strong><button onClick={()=>setMenu(false)} aria-label="بستن"><Icon name="close"/></button></div><button onClick={()=>navigate("home")}>خانه</button><button onClick={()=>navigate("shop")}>فروشگاه</button><button onClick={()=>navigate("categories")}>دسته‌بندی‌ها</button><button onClick={()=>navigate("offers")}>پیشنهادهای ویژه</button><button onClick={()=>navigate("about")}>درباره ما</button></aside></div>}
+    {cartOpen&&<div className="overlay" onMouseDown={()=>setCartOpen(false)}><aside className="cart-drawer" aria-label="سبد خرید" onMouseDown={e=>e.stopPropagation()}><div className="drawer-head"><strong>سبد خرید ({totalCount.toLocaleString("fa-IR")})</strong><button onClick={()=>setCartOpen(false)} aria-label="بستن سبد"><Icon name="close"/></button></div>{!totalCount?<div className="empty-cart"><Icon name="cart" size={48}/><h3>سبدت هنوز خالیه!</h3><p>یه چیز بامزه برای رفیقت انتخاب کن.</p><button className="btn btn-orange" onClick={()=>{setCartOpen(false);navigate("shop")}}>رفتن به فروشگاه</button></div>:<><div className="cart-items">{products.filter(p=>cart[p.id]).map(p=><div className="cart-item" key={p.id}><span className="cart-item-emoji" style={{background:p.bg}}>{p.emoji||"🐾"}</span><div><strong>{p.title}</strong><small>{money(p.price)}</small><div className="count-control"><button onClick={()=>change(p.id,-1)} aria-label="کم کردن"><Icon name="minus" size={14}/></button><b>{cart[p.id].toLocaleString("fa-IR")}</b><button onClick={()=>change(p.id,1)} aria-label="اضافه کردن"><Icon name="plus" size={14}/></button></div></div></div>)}</div><div className="cart-summary"><span>جمع سفارش</span><strong>{money(total)}</strong><button disabled>پرداخت در نسخه دمو فعال نیست</button></div></>}</aside></div>}
+  </>;
 }
