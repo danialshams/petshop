@@ -54,7 +54,6 @@ function ProductArt({ product }) {
 function Loader({ done }) {
   useEffect(() => {
     let active = true;
-    const start = Date.now();
     const media = ["/images/beagle.webp", "/images/cat.webp", "/images/parrot.webp", "/images/rabbit.webp", "/images/fish.webp", "/images/retriever.webp", "/images/dog-barking-transparent.webp"];
     let assetsReady = false;
     let oneLoop = false;
@@ -62,8 +61,8 @@ function Loader({ done }) {
     Promise.all(media.map(src => new Promise(resolve => {
       const img = new Image(); img.onload = resolve; img.onerror = resolve; img.src = src;
     }))).then(() => { assetsReady = true; complete(); });
-    const timer = setTimeout(() => { oneLoop = true; complete(); }, 6100);
-    const backup = setTimeout(() => { assetsReady = true; oneLoop = true; complete(); }, 10000);
+    const timer = setTimeout(() => { oneLoop = true; complete(); }, 2000);
+    const backup = setTimeout(() => { assetsReady = true; oneLoop = true; complete(); }, 3500);
     return () => { active = false; clearTimeout(timer); clearTimeout(backup); };
   }, [done]);
   return <div className="loader" role="status" aria-label="در حال آماده‌سازی فروشگاه"><div className="loader-body"><img width="224" height="224" src="/images/dog-barking-transparent.webp" alt="سگ بانمک در حال پارس"/><p>یه عالمه شادی تو راهه!</p><div className="paw-track" dir="ltr">{Array.from({length: 6}, (_,i) => <span className={`print ${i%2===0?"odd":"even"}`} key={i} style={{"--i":i}}><Icon name="paw" size={24} fill="currentColor"/></span>)}</div></div></div>;
@@ -93,7 +92,7 @@ export default function Home() {
       <section className="hero-wrap" id="home">
         <header className="header container">
           <button className="mobile-menu" aria-label="باز کردن منو" aria-expanded={menu} onClick={()=>setMenu(true)}><Icon name="paw" size={25} fill="currentColor"/></button>
-          <a href="#home" className="logo"><span className="logo-mark"><Icon name="paw" size={32} fill="currentColor"/></span><span>پت‌فود <small>PET FOOD</small></span></a>
+          <a href="#home" className="logo" aria-label="پت‌فود؛ خانه"><svg viewBox="0 0 100 62" width="88" height="54" style={{display:"block",maxWidth:"100%",height:"auto"}} fill="none" aria-hidden="true"><path d="M17 18C7 9 1 20 5 35c2 7 7 12 13 10M45 18c10-9 16 2 12 17-2 7-7 12-13 10" fill="#ff9f1c"/><path d="M15 31c0-15 9-23 16-23 13 0 22 10 22 25 0 12-8 20-19 20S15 45 15 31Z" fill="#ffcc70"/><path d="M19 30v3m19-3v3" stroke="#361139" strokeWidth="3.4" strokeLinecap="round"/><path d="M25 39q6-5 12 0-2 5-6 5t-6-5Z" fill="#361139"/><path d="M31 44q-4 5-8 2m8-2q4 5 8 2" stroke="#361139" strokeWidth="1.8" strokeLinecap="round"/><path d="M52 26 53 9q1-3 4-1l13 9q6-1 12 0L94 8q3-2 4 2l-1 21c4 16-6 25-22 25-17 0-27-10-23-30Z" fill="#fff8ed" stroke="#75206e" strokeWidth="2.5" strokeLinejoin="round"/><path d="m58 16 7 5-7 2Zm34 0-7 5 7 2Z" fill="#ffb4c8"/><path d="M62 34q3-4 6 0m13 0q3-4 6 0" stroke="#361139" strokeWidth="2.5" strokeLinecap="round"/><path d="m71 39 8 0-4 4Z" fill="#f28ca8"/><path d="M75 43q-3 5-7 2m7-2q3 5 7 2M55 40l7 1m-7 4 7-1m26-3 7-1m-7 4 7 1" stroke="#361139" strokeWidth="1.6" strokeLinecap="round"/><path d="M46 5c3-5 8-3 9 1 3-4 8-2 7 2-1 4-7 7-7 7S44 10 46 5Z" fill="#ffb4c8"/></svg></a>
           <nav className="navigation" aria-label="منوی اصلی"><a className="nav-active" href="#home">خانه</a><a href="#shop">فروشگاه</a><a href="#categories">دسته‌بندی‌ها</a><a href="#offers">پیشنهاد ویژه</a><a href="#about">درباره ما</a></nav>
           <div className="header-actions"><button aria-label="جست‌وجو" onClick={()=>{setSearchOpen(true);navigate("shop")}}><Icon name="search" size={21}/></button><button aria-label="علاقه‌مندی‌ها" onClick={()=>{setSelected("all");navigate("shop")}}><Icon name="heart" size={22} fill={liked.length?"#ff9c1b":"none"}/></button><button className="cart-trigger" aria-label="سبد خرید" onClick={()=>setCartOpen(true)}><Icon name="cart" size={22}/>{totalCount>0&&<b>{totalCount.toLocaleString("fa-IR")}</b>}</button></div>
         </header>
